@@ -1,0 +1,7 @@
+Method    Endpoint
+GET       /aber 
+GET       /aber/{id}
+POST      /aber
+PATCH     /aber/{id}
+PUT       /aber/{id}
+DELETE    /aber/{id}
