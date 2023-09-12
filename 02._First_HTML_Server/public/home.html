@@ -1,11 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        #title {
+            color: red;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First HTML server</title>
 </head>
 <body>
-    <h1>HOME</h1>
+    <h1 id="title">HOME</h1>
+
+    <h3 id="welcome"></h3>
+
+    <a href="/second">go second page</a>
 </body>
+<script>
+    fetch("/welcome?user=Lasse")
+    .then( (response) => {
+        if(!response.ok) {
+            throw new Error(response.status);
+        }
+
+        return response.json();
+    })
+    .then( (result) => {
+        
+        const welcomeBox = document.getElementById("welcome");
+        welcomeBox.innerText = result.data;
+    })
+    .catch( (err) => {
+        console.log(err.message);
+    });
+</script>
 </html>
