@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First HTML server</title>
+    <title>GAME OVER</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-top: 100px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            background-color: #ff5733;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff3213;
+        }
+    </style>
 </head>
 <body>
-    <h1>Second page</h1>
+    <h1>GAME OVER!</h1>
+    <h2 id="scoreBox"></h2>
+    <button onclick="buttonHandler()" id="tryAgainButton">Try again</button>
 </body>
+<script>
+    const url = window.location.href;
+    console.log(url);
+    const score = url.charAt(url.length - 1);
+
+    const scoreBox = document.getElementById("scoreBox");
+    scoreBox.innerText = "Din score blev: " + score;
+
+    function buttonHandler() {
+        window.location.href = "/";
+    }
+</script>
 </html>

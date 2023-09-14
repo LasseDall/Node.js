@@ -9,16 +9,6 @@ app.get("/second", (req, res) => {
     res.sendFile(__dirname + "/public/secondPage.html");
 });
 
-app.get("/welcome", (req, res) => {
-    const name = req.query.user;
-    
-    if(!name) {
-        res.send({ data: `Welcome!` });
-    } else {
-        res.send({ data: `Welcome to this website ${name}!` });
-    }
-});
-
 const PORT = 8080;
 app.listen(PORT, (error) => {
     if (error) {
