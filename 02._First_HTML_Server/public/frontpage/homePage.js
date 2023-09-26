@@ -1,0 +1,1 @@
+setInterval( () => { window.location.href = "/secondPage"; }, 3000);
