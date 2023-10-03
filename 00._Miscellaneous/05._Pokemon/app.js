@@ -1,21 +1,21 @@
 import express from "express";
-import  path from "path";
 import { randomIntFromInterval } from "./util/randomUtil.js";
+import { frontpagePage, battlePage, contactPage } from "./util/preparePage.js";
 
 const app = express();
 
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.resolve(".", "public", "frontpage", "frontPage.html"));
+    res.send(frontpagePage);
 });
 
 app.get("/battle", (req, res) => {
-    res.sendFile(path.resolve(".", "public", "battle", "battle.html"));
+    res.send(battlePage);
 });
 
 app.get("/contact", (req, res) => {
-    res.sendFile(path.resolve(".", "public", "contact", "contact.html"));
+    res.send(contactPage);
 });
 
 let currentPokemon;
@@ -49,7 +49,7 @@ app.get("/battlepokemon", (req, res) => {
     }
 });
 
-const PORT = 8080
+const PORT = Number(process.env.PORT) || 8080;
 
 app.listen(PORT, () => {
     console.log("Server is running on port:", PORT);

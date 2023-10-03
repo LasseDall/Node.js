@@ -10,5 +10,17 @@ body {
 }
 
 main {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    align-items: center;
+}
+
+#pokemon-strength-left {
+    color: red;
+}
+
+#pokemon-image {
+    width: 23vw;
+    height: auto;
 }
