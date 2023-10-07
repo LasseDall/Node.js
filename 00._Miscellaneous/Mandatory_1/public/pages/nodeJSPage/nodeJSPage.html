@@ -1,0 +1,65 @@
+<div class="main">
+<h1 class="main">Node.js</h1>
+<p>
+    Node.js er et enviroment, der gør det muligt at køre JavaScript kode på server-siden, hvor det 
+    tidligere kun har været muligt at køre i en browser. Det er bygget på V8 motoren, der også 
+    bruges i browseren i eksempelvis Chrome. Node.js gør det således muligt at lave backend servere 
+    med JavaScript, der blandt andet har den fordel, at det kører ekstremt hurtigt og kan håndtere mange 
+    requests på samme tid uden at blokere tråden. Således kan man med Node.js lave API'er, CLI-applikation og andet software
+    med JavaScript. <br><br>
+
+    Node.js har som standard en entry-fil til projektet, som hedder package.json. Denne indeholder, 
+    ligesom eksempelvis en pom.xml fil i Maven, projektets dependencies, metadata og eventuelle scripts.
+    I package.json, der i sagens natur indeholder json-objekter, kan man, som jeg har gjort i dette projekt,
+    installere Express ved at insætte følgende i package.json: 
+    <br><br> <code>
+        { "dependencies": { "express": "4.18.2" } } 
+    </code> <br><br>
+    Her er dependencies en key, der indeholder et objekt, hvor express er key og værdien er den ønskede version.
+    Når man efterfølgende i terminalen skriver:
+    <br><br> <code>
+        npm install
+    </code> <br><br> 
+    vil man installere de dependencies, som er i package.json, hvilket i dette tilfælde opretter en package-lock.json fil og en mappe, der hedder node_modules,
+    der indeholder express-biblioteket. Man kan alternativt i terminalen nøjes med at skrive:
+    <br><br> <code>
+        npm install express 
+    </code> <br><br>
+    Så indsætter den automatisk dependencies i package.json og installerer Express. <br> <br>
+    Express indeholder en række funktioner, der blandt andet er utrolig gode til at udvikle REST-API'er med.
+    NPM står for Node Package Manager og er, ligesom Maven i Java, ansvarlig for at håndtere biblioteker og moduler
+    og deres dependencies.
+    I package.json i dette projekt har jeg yderligere tilføjet: 
+    <br><br> <code>
+        "type": "module"
+    </code> <br><br>
+    Det gør, at modulerne, som eksempelvis express eller mine js-filer, kan importeres på følgende måde: 
+    <br><br> <code>
+        import express from "express";
+    </code> <br><br>
+    Uden denne tilføjelse vil man i Node.js skrive:
+    <br><br> <code>
+        const express = require("express");
+    </code> <br><br>
+    Require er således import i Node.js, men koden bliver mere genbrugelig, når man kan bruge import, som i andre sprog.<br><br>
+    Til udviklingen af dette projekt har jeg også brugt Nodemon, som er et Hot Reload værktøj, der restarter serveren, 
+    når der foretages ændringer i koden. Dette er super smart i udviklingsfasen, men bør ikke bruges i servere, der 
+    er i produktion, da dette vil kunne skabe mange problemer. Man starter en server med Nodemon ved i terminalen at skrive: 
+    <br><br> <code>
+        nodemon app.js
+    </code> <br><br>
+    Så kører serveren med Nodemon. Hvis du vil køre serveren uden Nodemon skriver man: 
+    <br><br> <code>
+        node app.js
+    </code> <br><br>
+    Normalt lytter nodemon kun til js-filer, men man kan udvide dette til blandt andet html- og json-filer ved at oprette en fil, 
+    der hedder nodemon.json og i den skriver: 
+    <br><br> <code>
+        {
+            "ext": "html,js,json"
+        }
+    </code> <br><br>
+    Med denne udvidelse lytter Nodemon således til html- og json-filer, så serveren også restartes ved ændringer i disse.
+
+</p>
+</div>

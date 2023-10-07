@@ -1,0 +1,131 @@
+<h1 class="main">JavaScript</h1>
+<p>
+    JavaScript arbejder med variablerne String, Number, Boolean, BigInteger, null, undefined, Symbol, Object. 
+    Disse behøver dog ikke defineres eksplicit, når en variabel instantieres, fordi JvaScript godt kan tolke
+    værdierne. Derfor instantiere man primært med let, var og const. Af disse er det foretrukket at bruge const, da 
+    referencen til en const ikke kan ændres, hvilket sikrer at der ikke kan ske uhensigtsmæssige ændringer i varibaler.
+    Hvis ikke const er mulig, så er let at foretrække. På denne måde undgår man bedst muligt code smell. Det er bedst at 
+    instantiere variabler i så lille et scope som muligt. Dermed bør der kun være den mængde globale variabler, som er 
+    absolut nødvendig. Dette er ligeledes for at undgå, at de kan ændres uden det er meningen og dermed undgå code smell. <br><br>
+    JavaScript bruger ydermere type-coercion, hvilket betyder, at den kan parse variabler til nye typer variabler, 
+    hvis det er nødvendigt. Det kan det eksempelvis være, hvis man forsøger at lægge en String og et Number sammen.
+    Denne type-coercion betyder også, at der er i JavaScript er både "==" og "===" når man sammenligner værdier. 
+    Hvis man sammenligner med "==" vil variabler med samme værdi, men ikke af samme type returnere true, hvor "==="
+    kun vil returnere true, hvis værdien og typen er den samme.
+    
+    <h2 class="main">Funktioner</h2>
+    Der er flere typer funktioner i JavaScript. Man kan både oprette anonyme funktioner og arrow-funktioner.
+    Arrow-funktioner er for det meste at foretrække, da de er let læsbare og har kortest mulig syntaks. 
+    En arrow funktion kan se således ud: 
+    <br><br> <code>
+        const jump = (name) => `${name} is jumping`;
+    </code> <br>
+    En anonym funktion ser sådan ud:
+    <br><br> <code>
+        const jump = function(name) { return `${name} is jumping` };
+    </code> <br>
+    Grunden til at det er smart at instatinere en funktion som const er for at
+    funktionen er begrænset til at arbejde inden for sit eget scope, så den ikke laver rod i noget kode
+    uden for sit scope, så man undgår code smell.
+    Funktionen jump er oplagt at bruge som en callback funktion, hvilket vil sige, at den bruges som argument 
+    direkte i en anden funktion. Her er et eksempel på dette:
+    <br><br> <code>
+        function genericActionPerformer(genericAction, name) { <br>
+            return genericAction(name); <br>
+        } <br>
+        console.log(genericActionPerformer(jump, "Lasse"));
+    </code> <br>
+    Her vil genericActionPerformer, der tager en callback-funktion som argument udskrive "Lasse is jumping". 
+
+    <h2 class="main">Loops</h2>
+    Der er følgende forskellige loop metoder i JavaScript: forEach, map, filter, find, sort, reduce. Hvilken metode der er
+    foretrukket afhænger naturligvis af formålet med loopet. Loop med forEach itererer blot gennem en liste, hvorpå du kan udføre en handling.
+    Eksempelvis hvis man ønsker at lægge 1 til alle troldes level i en liste:
+    <br><br> <code>
+        const trollPlus1 = trolls.forEach((troll) => troll.trollLevel++)
+    </code> <br>
+    Det er dog foretrukket at bruge map istedet, da map reurnerer en ny liste på samme størrelse som den oprindelige:
+    <br><br> <code>
+        const trollsPlus5 = trolls.map((troll) => ({ <br>
+            ...troll, <br>
+            trollLevel: troll.trollLevel += 5 <br>
+        }));
+    </code> <br>
+    Her er trolde-objektet direkte angivet i arrow-funktionen ved hjælp af et ekstra sæt paranteser.
+    Derudover bruges en spread operator (...), der skaber en kopi af objektet.
+    Man kan ligeledes bruge map loopet på følgende måde:
+    <br><br> <code>
+        const trollsPlus2 = trolls.map((troll) => {
+            troll.trollLevel += 2;
+            return troll;
+        });
+    </code> <br>
+    Her returneres hver enkel trold med nyt level til den nye liste. <br><br>
+    Man bruger filter, hvis man ønsker en potentielt reduceret liste ud fra et kriterie, som eksempelvis
+    en liste over de trolde, som har et level der er et ulige tal:
+    <br><br> <code>
+        const oddTrolls = trollsPlus2.filter( (troll) => {
+            if (troll.trollLevel % 2 !== 0) {
+             return troll;
+            };
+         });
+    </code> <br>
+    Her får man muligvis en reduceret liste af trolde. <br><br>
+    Hvis man ønsker at finde et enkelt element i en liste ud fra eksempelvis id, så er find at foretrække, 
+    da find kun returnere et enkelt objekt:
+    <br><br> <code>
+        const findTroll = trolls.find((trolls) => troll.id === id);
+    </code> <br>
+    Find stopper således med at itererer gennem listen, når den finder den trold den skal returnerer.
+
+    <h2 class="main">Date-objekter</h2>
+    Der er flere måder at finde den aktuelle dato i JavaScript. Der er Date(), new Date() og Date.now().
+    Date() returnere en formateret string, der ser således ud: "Tue Sep 28 2023 15:34:56 GMT+0200 (Central European Summer Time)". 
+    Den returnere derfor ikke et Date-objekt, og tilbyder ingen metoder yderligere.
+    Det gør new Date(), da den returnere et Date-objekt og tilhørende metoder, som eksempelvis getMonth() og getDay().
+    Date.now() returnere unix-time, som jeg ikke umiddelbart finder brugbart.
+
+    <h2 class="main">Timeout og redirect</h2>
+    En setTimeout funktion kan være nyttig, hvis man ønsker forsinkelse i kaldet af en funktion. 
+    setTimeout modtager hhv. en callback-funktion og en delay i milisekunder som argumenter. Eksempelvis
+    kan man skrive:
+    <br><br> <code>
+        setTimeout(window.location.href("/secondPage"), 1000);
+    </code> <br>
+    Her vil klienten blive redirectet til endpointet /secondPage efter et sekund. Man kan ligeledes redirecte
+    ved at skrive window.location.replace("/secondPage").
+    Man kan også lave Server Side Redirection ved eksempelvis at sende det som response i et endpoint:
+    <br><br> <code>
+        app.get("/redirection", (req, res) => { <br>
+                return res.redirect("/secondPage") <br>
+        });
+    </code> <br>
+    Her vil klienten ligeledes blive redirectet til /secondPage.
+
+    <h2 class="main">Fetch</h2>
+    Når man laver et fetch på en url, så ønsker man typisk noget data returneret eller at manipulere noget data i eksempelvis en database.
+    Et typisk fetch-kald med et GET-request kan se således ud:
+    <br><br> <code>
+    fetch("https://www.mountains.com/mountains") <br>
+    .then((response) => {<br>
+            if(!response.ok) { <br>
+            throw new Error(response.status); <br>
+    }<br>
+
+        return response.json();<br>
+    })<br>
+    .then((result) => {<br>
+       
+        const mounatianBox = document.getElementById("mounatains");<br>
+        mounatianBox.innerText = result.data;<br>
+    })<br>
+    .catch((err) => {<br>
+        console.log(err.message);<br>
+    });
+    </code> <br>
+    Et fetch returnere i første omgang et promise, og derfor laver vi response om til json, og manipulere det ind på vores html-side.
+    Det er også vigtigt i denne sammenhæng at forstå opbygningen af en url, som eksempelvis: https://www.google.com/search?q=mountains.
+    https:// er protokollen, der anvendes, www er subdomæne til google, som er domænenavnet.
+    com er toplevel domain og /search er endpointet til det domæne vi vil tilgå. Derefter kommer et ?, der angiver at der kommer en querystring, som er q=mountains.
+    Således vil google-serveren hente queryparametret q ned og få værdien "mountain".
+</p>

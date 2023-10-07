@@ -1,0 +1,47 @@
+<h1 class="main">Mappestruktur</h1>
+<p>
+    Det er vigtigt, hvordan filer struktureres og placeres i mapper i et projekt. Det er det dels for,
+    at det er lettere at have et overblik, når projektet bliver større, men også så andre udviklere forstår,
+    hvor de skal lede efter bestemte komponenter. I dette projekt er der to grundlæggende mapper til at strukturer
+    hhv. html, css og js-filer: public og util. <br><br>
+    Public indeholder de filer, der skal kunne tilgås i browseren, hvilket vil sige html, css og js-filer, der
+    er tilknyttet en html-fil. Det er en vigtig pointe, at jeg i dette projekt har brugt Server Side Rendering af html-siderne, således at de skabes på serveren, når den startes
+    og dermed ikke trækker ressourcer fra browseren, men bare sender html direkte som respons til klienten. Public-mappen indeholder tre mapper 
+    hhv. assets, der kan indeholde stylesheets og billeder mm., components, der indeholder komponenter til footer og navbar, så de kan genbruges på alle 
+    html-siderne, når de bliver renderet på serveren samt pages, der indeholder den unikke del af hver html-side, så denne skiftes ud, og lægges sammen med hhv. navbar og footer.
+    <br><br>
+    Denne rendering sker i util-mappen, der indeholder hhv. preparePage.js og templateEngine.js. I templateEngine.js opbygges html-filen gennem to metoder: readpage og renderPage.
+    Til disse metoder importeres fs, som er et modul, der gør det let at arbejde med filer, og eksempelvis indeholder metoder som readFile. 
+    Med dette værktøj kan man læse en side således: 
+    <br><br> <code>
+        export function readPage(filePath) { <br>
+            return fs.readFileSync(filePath).toString(); <br>
+        }
+    </code> <br><br> 
+    Denne metode returnere den tekst som er i den angivne fil. 
+    Derefter kan siden renderes på følgende måde:
+    <br><br> <code>
+        export function renderPage(page, config={}) { <br>
+            const navbar = fs.readFileSync("./public/components/navbar/navbar.html").toString() <br>
+                .replace("$TAB_TITLE", config.tabTitle || "Mandatory 1") <br>
+            const footer = fs.readFileSync("./public/components/footer/footer.html").toString(); <br><br>
+        
+            return navbar + page + footer;<br>
+        }
+    </code> <br><br> 
+    Her returneres således en hel side, der er unik pga. indholdet i page, men bruger de genbrugelige komponter navbar og footer.
+    Metoden readFileSync fra fs læser blot filen, men gør det asynkront, så funktionen venter på, at filen er indlæst.
+    Dette er nødvendigt, fordi JavaScript kører synkront, og ikke venter på at funktioner eksekveres medmindre det angives explicit.
+    Derfor kan man også kalde funktioner i toppen af en fil og instantiere den i bunden i JavaScript. Funktionen laver også en injection i html-headeren, så
+    $TAB_TITLE udskiftes med et andet navn, og hvis ikke det er angivet er default-navnet "Mandatory 1".
+    I filen preparePage.js eksporteres de enkelte html-sider. Derfor importerer den metoderne fra templateEngine.js.
+    Så kan den lave siderne med templateEngine.js metoderne ved at angive de specifikke fil-stier:
+    <br><br> <code>
+        const frontpage = readPage("./public/pages/frontpage/frontpage.html");<br>
+        export const frontpagePage = renderPage(frontpage, {<br>
+            tabTitle: "Mandatory 1"<br>
+        });
+    </code> <br><br> 
+    Her eksporteres frontpagePage således med tabTitle "Mandatory 1", så den kan importeres i app.js og sendes direkte i respons til endpointet "/". 
+
+</p>

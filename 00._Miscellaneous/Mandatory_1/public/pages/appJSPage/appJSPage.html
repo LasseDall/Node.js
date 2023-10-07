@@ -1,0 +1,92 @@
+<div class="main">
+<h1 class="main">App.js</h1>
+<p>
+    Entry filen til browseren hedder typisk app.js eller main.js i node.js. I dette tilfælde hedder den app.js.
+    Det er således den fil, der bliver kørt og aktiverer, router mv. til resten af programmet. Normalvis vil app.js-filen 
+    starte med de imports, der er nødvendige for at køre app'en. Her importeres blandt andet Express, som derefter bliver brugt
+    til at instantiere et app-objekt:
+    <br><br> <code>
+        import express from "express"; <br><br>
+        const app = express(); 
+    </code> <br><br>
+    Derefter fortæller jeg app'en, at den kan tilgå den mappe, jeg har kaldt public i projektet:
+    <br><br> <code>
+        app.use(express.static("public"));
+    </code> <br><br>
+    Express kan ikke i udgangspunktet tilgå alle mapper i projektet, hvilket er en sikkerhedsforanstaltning, der
+    sikrer, at app'en i eksempelvis front-end ikke har adgang til dele af projektet, der ikke bør deles i browseren.<br><br>
+    Herefter følger hoveddelen af app.js, der er de endpoints, som skal kunne tilgås i serveren. Disse skal
+    følge nogle faste konventioner, således at koden er let at navigere rundt i, let at forstå, samt let at tilgå og bruge.
+    En vigtig konvention, der bør følges er rækkefølgen af endpoints, som bør være som følger:
+    GET, POST, PATCH, PUT og DELETE.
+    Derudover bør endpointet i et REST-API altid være i flertal uanset om der hentes et eller flere objekter, da det kan skabe forvirring, 
+    hvis endpointets navn ikke er det samme på tværs af metoderne. Følgende er et
+    eksempel på en opsætning af endpoints i et REST-API, hvor der tilgås en database af abe-objekter:
+    <br><br> <code>
+        Method  -  Endpoint<br>
+        GET     -  /aber <br>
+        GET     -  /aber/{id}<br>
+        POST    -  /aber<br>
+        PATCH   -  /aber/{id}<br>
+        PUT     -  /aber/{id}<br>
+        DELETE  -  /aber/{id}
+    </code> <br><br>
+    Et endpoint vil i app.js typisk se ud som følgende: 
+    <br><br> <code>
+        app.get("/", (req, res) => { <br>
+            res.send( { data: "Here's som data" } ); <br>
+        });
+    </code> <br><br>
+    Der er således et request og et response til endpointet. Det er en naturlig del af client-server modellen, 
+    hvor clienten giver et request til serveren, der svarer med et response. Requestet kan indeholde path-variabler 
+    eller en body, som kan hentes ud. Response er det data, der sendes tilbage til 
+    klienten. Body requests og response er altid json, da dette kan læses på tværs af sprog, browsers mm. 
+    Hvis man eksempelvis vil lave et endpoint med en pathvariabel, der angiver id på det objekt,
+    som man ønsker returneret, kan man skrive som følger:
+    <br><br> <code>
+        app.get("/:id", (req, res) => { <br>
+            const mountianId = Number(req.params.id);
+            res.send( { data: "Here's som data" } ); <br>
+        });
+    </code> <br><br>
+    Således angiver :id en path-variabel, der kan hentes gennem requestet med req.params.id. 
+    Hvis man i et POST-request skal kunne modtage en body, så er det nødvendigt i toppen af app.js at skrive:
+    <br><br> <code>
+        app.use(express.json());
+    </code> <br><br>
+    På denne måde kan app-objektet modtage og bruge json-objekter, som eksempelvis en body. 
+    Når dette er implementeret kan man nemt hente dele af en body gennem requestet på følgende måde:
+    <br><br> <code>
+        const name = req.body.name;
+    </code> <br><br>
+    I bunden af app.js-filen bør man få app'en til at lytte til et port-nummer, så den kan tilgås. 
+    Det gør man ved at skrive:
+    <br><br> <code>
+        app.listen(PORT, () => { <br>
+            console.log("Server is running on port:", PORT); <br>
+        }); 
+    </code> <br><br>
+    App'en lytter således til et portnummer, der er angivet som variablen PORT, og udskriver i terminalen,
+    hvilken port serveren kører på.
+    Man kan hard-code PORT til eksempelvis 8080, når man udvikler, men når det skal køres i produktion, kan det 
+    være en løsning at instantiere PORT som følger: 
+    <br><br> <code>
+        const PORT = Number(process.env.PORT) || 8080;
+    </code> <br><br>
+    Her bliver PORT således lig en miljøvariabel ved navn PORT. Linjen sikrer ydermere, at miljøvriablen bliver parset 
+    til et Number, og hvis denne bliver NaN, så kører den default på PORT 8080.
+    Miljøvariablen PORT kan defineres i et script, der starter serveren op i package.json-filen: 
+    <br><br> <code>
+        "scripts": { 
+            "start:dev": "cross-env PORT=8080 nodemon app.js"
+        }
+    </code> <br><br>
+    Her bliver PORT således en miljøvariabel der er lig 8080, når man kører scriptet "start:dev". Cross-env er en pakke,
+    der sikrer at scriptet kan køres på tværs af styresystemer. Scriptet kan køres ved at skrive i terminalen:
+    <br><br> <code>
+        npm run start:dev
+    </code> <br><br>
+    Så kører serveren på port 8080.
+    </body>
+</p>
+</div>
