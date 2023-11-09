@@ -6,6 +6,8 @@ const app = express();
 
 app.use(express.static("public"));
 
+app.use(express.urlencoded({ extended: true })); //for at kunnne bruge forms? Extended true vil parse nestede formdata?
+
 app.get("/", (req, res) => {
     res.send(frontpagePage);
 });
@@ -15,6 +17,7 @@ app.get("/battle", (req, res) => {
 });
 
 app.get("/contact", (req, res) => {
+    console.log(req.body);
     res.send(contactPage);
 });
 
@@ -47,6 +50,10 @@ app.get("/battlepokemon", (req, res) => {
         currentPokemon.strength--;
         res.send({ data: currentPokemon });
     }
+});
+
+app.post("/contact", (req, res) => {
+    res.send({ data: "Thanks for contacting us!" });
 });
 
 const PORT = Number(process.env.PORT) || 8080;
