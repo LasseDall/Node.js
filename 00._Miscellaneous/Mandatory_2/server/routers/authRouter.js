@@ -9,6 +9,7 @@ const saltRounds = 14;
 
 router.get("/api/auth/logout", (req, res) => {
     req.session.destroy(() => {
+        console.log(req.session);
         res.send({ data: "Du er logget ud!" });
     });
 });
@@ -24,8 +25,10 @@ router.post("/api/auth/login", async (req, res) => {
         if (!compareResult) {
             res.status(401).send({ data: "Username or password was not correct" });
         } else {
+            
             req.session.username = username;
             res.send({ data: `You are now logged in as ${username}` });
+            console.log(req.session);
         }
     }
 });

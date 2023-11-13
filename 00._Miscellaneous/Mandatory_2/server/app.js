@@ -44,8 +44,9 @@ const authRateLimiter = rateLimit({
 });
 
 function authorize(req, res, next) {
+    console.log(req.session.username);
     if (!req.session.username) {
-        res.send({ data: "Log ind for at se dagbøgerne!" });
+        res.status(403).send({ data: "Log ind for at se dagbøgerne!" });
     } else {
         next();
     }
@@ -55,37 +56,12 @@ app.use("/api/auth", authRateLimiter);
 
 app.use("/api/diaries", authorize);
 
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: 'marianna.wehner@ethereal.email',
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
-
-async function main(userEmail, name) {
-    try {
-        const info = await transporter.sendMail({
-            from: '"Secret diaries" <secretdiaries@gmail.com>',
-            to: userEmail, 
-            subject: "Hello", 
-            text: `Hello ${name}`,
-            html: `<b>Hello ${name}</b>`,
-          });
-    } catch(error) {
-        console.log(error.message);
-    }
-}
-
-
 import authRouter from "./routers/authRouter.js";
 app.use(authRouter);
 import diariesRouter from "./routers/diariesRouter.js";
 app.use(diariesRouter);
-
+import emailRouter from "./routers/emailRouter.js";
+app.use(emailRouter);
 
 
 

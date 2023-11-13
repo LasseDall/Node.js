@@ -1,6 +1,6 @@
 <script>
 	import { useNavigate, useLocation } from "svelte-navigator";
-	import { user } from "./src/store/userStore";
+	import { user } from "./src/stores/userStore.js";
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -10,6 +10,7 @@
 			state: { from: $location.pathname },
 			replace: true,
 		});
+		toastr["info"]("Login to read the secret diaries!");
 	}
 </script>
 
