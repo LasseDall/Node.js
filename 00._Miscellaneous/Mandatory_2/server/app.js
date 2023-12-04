@@ -62,6 +62,14 @@ import diariesRouter from "./routers/diariesRouter.js";
 app.use(diariesRouter);
 import emailRouter from "./routers/emailRouter.js";
 app.use(emailRouter);
+import albumsRouter from "./routers/albumsRouter.js";
+app.use(albumsRouter);
+import followAlbumsRouter from "./routers/followAlbumsRouter.js";
+app.use(followAlbumsRouter);
+import followUsersRouter from "./routers/followUsersRouter.js";
+app.use(followUsersRouter);
+import usersRouter from "./routers/usersRouter.js";
+app.use(usersRouter);
 
 
 

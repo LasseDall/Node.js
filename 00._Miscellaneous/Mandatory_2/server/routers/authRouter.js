@@ -9,7 +9,6 @@ const saltRounds = 14;
 
 router.get("/api/auth/logout", (req, res) => {
     req.session.destroy(() => {
-        console.log(req.session);
         res.send({ data: "Du er logget ud!" });
     });
 });
@@ -28,7 +27,6 @@ router.post("/api/auth/login", async (req, res) => {
             
             req.session.username = username;
             res.send({ data: `You are now logged in as ${username}` });
-            console.log(req.session);
         }
     }
 });
