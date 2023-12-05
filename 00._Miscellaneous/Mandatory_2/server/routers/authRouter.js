@@ -16,17 +16,18 @@ router.get("/api/auth/logout", (req, res) => {
 router.post("/api/auth/login", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const encryptedPassword = await db.get(`SELECT password FROM users WHERE username = ?;`, [username]);
+    const userData = await db.get(`SELECT id, password FROM users WHERE username = ?;`, [username]);
+    const encryptedPassword = userData.password;
+    const userId = userData.id;
     if (!encryptedPassword) {
         res.status(401).send({ data: "Username or password was not correct" });
     } else {
-        const compareResult = await bcrypt.compare(password, encryptedPassword.password);
+        const compareResult = await bcrypt.compare(password, encryptedPassword);
         if (!compareResult) {
             res.status(401).send({ data: "Username or password was not correct" });
         } else {
-            
             req.session.username = username;
-            res.send({ data: `You are now logged in as ${username}` });
+            res.send({ data: { username: username, id: userId }});
         }
     }
 });

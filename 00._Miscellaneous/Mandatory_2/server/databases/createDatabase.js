@@ -42,7 +42,6 @@ if (isDeleteMode) {
     await db.run("INSERT INTO albums (title, artist, genre) VALUES ('The Wall', 'Pink Floyd', 'Prog Rock');");
     await db.run("INSERT INTO albums (title, artist, genre) VALUES ('Animals', 'Pink Floyd', 'Prog Rock');");
     await db.run("INSERT INTO users_albums (users_id, albums_id) VALUES (1, 1);");
-    await db.run("INSERT INTO users_albums (users_id, albums_id) VALUES (1, 2);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 1);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 2);");
 

@@ -1,0 +1,20 @@
+.vinyl-icon {
+    height: 6vw;
+    width: 6vw;
+}
+
+.user-icon {
+    height: 6vw;
+    width: 6vw;
+}
+
+.album-box {
+    border: solid black 2px;
+    margin: 3%;
+}
+
+.user-box {
+    border: solid black 2px;
+    margin: 3%;
+}
+

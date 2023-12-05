@@ -3,7 +3,7 @@ const router = Router();
 import db from "../databases/connection.js";
 
 router.get("/api/albums", async (req, res) => {
-    const albums = await db.all(`SELECT title, artist, genre, rating FROM albums;`);
+    const albums = await db.all(`SELECT * FROM albums;`);
     res.send({ data: albums });
 }); 
 

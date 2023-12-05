@@ -3,18 +3,17 @@
     import { navigate } from "svelte-navigator";
     import { currentUserId } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-   
 
     onMount(() => {
-        getAlbums();
+        getUsers();
     });
 
-    let albums = [];
+    let users = [];
 
-    const getAlbums = async () => {
+    const getUsers = async () => {
 
         try {
-            const response = await fetch(BASE_URL + `/api/albums`, {
+            const response = await fetch(BASE_URL + `/api/users`, {
                 credentials: "include" 
             });
   
@@ -23,25 +22,23 @@
                 toastr["error"](result.data);
             } else {
                 const result = await response.json();
-                albums = result.data;
+                users = result.data;
             }
         } catch (error) {
             toastr["error"](error.message);
         }
     }
 
-    function navigateToAlbum(album) {
-        navigate(`/album?title=${album.title}&artist=${album.artist}&genre=${album.genre}&rating=${album.rating}&id=${album.id}`);
+    function navigateToUser(user) {
+        navigate(`/user-page?username=${user.username}&id=${user.id}`);
     }
 
 </script>
 
-<h1>Music</h1>
+<h1>Users</h1>
 
-{#each albums as album}
-  <div class="album-box" on:click={() => navigateToAlbum(album)}>
-    <h3><img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />{album.artist}: {album.title}</h3>
-    <h3>{album.genre}</h3>
-    <h3>{album.rating}</h3>
-  </div>
+{#each users as user}
+    <div class="user-box" on:click={() => navigateToUser(user)}>
+        <h3><img src="/src/assets/images/user-icon.jpg" class="user-icon" />{user.username}</h3>
+    </div>
 {/each}

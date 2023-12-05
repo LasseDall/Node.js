@@ -1,7 +1,7 @@
 <script>
-    import { LOGIN_URL } from "../../stores/urlStore.js";  
+    import { BASE_URL } from "../../stores/urlStore.js";  
     import { useNavigate } from "svelte-navigator";
-    import { user } from "../../stores/userStore.js";
+    import { currentUserId, followedUsers, likedAlbums } from "../../stores/userStore.js";
 
 	  const navigate = useNavigate();
 
@@ -18,7 +18,7 @@
       };
 
       try {
-        const response = await fetch(LOGIN_URL + "/api/email/sendemail", {
+        const response = await fetch(BASE_URL + "/api/email/sendemail", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -43,9 +43,9 @@
         username,
         password
       };
-  
+
       try {
-        const response = await fetch(LOGIN_URL + "/api/auth/login", {
+        const response = await fetch(BASE_URL + "/api/auth/login", {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -59,14 +59,56 @@
             toastr["error"](result.data);
         } else {
             const result = await response.json();
-            toastr["success"](result.data);
-            user.set(username);
+            toastr["success"](`You are now logged in as ${result.data.username}`);
+            currentUserId.set(result.data.id);
+            getFollowedUsers(result.data.id);
+            getLikedAlbums(result.data.id);
             navigate("/");
         }
       } catch (error) {
         toastr["error"](error.message);
       }
     };
+
+    async function getLikedAlbums(userId) {
+      try {
+        const response = await fetch(BASE_URL + "/api/follow-albums/" + userId, {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+            const result = await response.json();
+            toastr["error"](result.data);
+        } else {
+            const result = await response.json();
+            const likedAlbumsId = result.data.map(likedAlbum => likedAlbum.id);
+            likedAlbums.set(likedAlbumsId);
+        }
+      } catch (error) {
+        toastr["error"](error.message);
+      }
+    };
+
+    async function getFollowedUsers(userId) {
+      try {
+        const response = await fetch(BASE_URL + "/api/follow-users/" + userId, {
+          credentials: 'include'
+        });
+  
+        if (!response.ok) {
+          const result = await response.json();
+          toastr["error"](result.data);
+        } else {
+          const result = await response.json();
+          const followedUsersId = result.data.map(followedUser => followedUser.id);
+          followedUsers.set(followedUsersId);
+        }
+      } catch (error) {
+        toastr["error"](error.message);
+      }
+    };
+    
+
 
 </script>
   

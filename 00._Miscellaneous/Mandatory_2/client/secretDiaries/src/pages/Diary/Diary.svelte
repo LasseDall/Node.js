@@ -1,6 +1,6 @@
 <script>
     import { DIARY_NAME } from "../../stores/diaryStore.js";
-    import { LOGIN_URL } from "../../stores/urlStore.js";
+    import { BASE_URL } from "../../stores/urlStore.js";
     import { onMount } from 'svelte';
 
     let diary = '';
@@ -13,7 +13,7 @@
     const getDiary = async () => {
 
       try {
-        const response = await fetch(LOGIN_URL + `/api/diaries/` + diaryName, {
+        const response = await fetch(BASE_URL + `/api/diaries/` + diaryName, {
             credentials: "include" 
         });
         

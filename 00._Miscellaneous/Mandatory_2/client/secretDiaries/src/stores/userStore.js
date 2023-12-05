@@ -1,3 +1,6 @@
 import { writable } from "svelte/store";
 
-export const user = writable(null);
+export const currentUserId = writable(null);
+export const followedUsers = writable([]);
+export const likedAlbums = writable([]);
+
