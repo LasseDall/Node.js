@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { useNavigate } from "svelte-navigator";
-    import { currentUserId, followedUsers, likedAlbums } from "../../stores/userStore.js";
+    import { currentUserId, followedUsers, likedAlbums, reviews } from "../../stores/userStore.js";
 
 	  const navigate = useNavigate();
 
@@ -63,6 +63,7 @@
             currentUserId.set(result.data.id);
             getFollowedUsers(result.data.id);
             getLikedAlbums(result.data.id);
+            getReviewedAlbums(result.data.id);
             navigate("/");
         }
       } catch (error) {
@@ -102,6 +103,25 @@
           const result = await response.json();
           const followedUsersId = result.data.map(followedUser => followedUser.id);
           followedUsers.set(followedUsersId);
+        }
+      } catch (error) {
+        toastr["error"](error.message);
+      }
+    };
+
+    async function getReviewedAlbums(userId) {
+      try {
+        const response = await fetch(BASE_URL + "/api/album-reviews/users/" + userId, {
+          credentials: 'include'
+        });
+  
+        if (!response.ok) {
+          const result = await response.json();
+          toastr["error"](result.data);
+        } else {
+          const result = await response.json();
+          const reviewedAlbumsId = result.data.map(reviewedAlbum => reviewedAlbum.albums_id);
+          reviews.set(reviewedAlbumsId);
         }
       } catch (error) {
         toastr["error"](error.message);

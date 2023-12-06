@@ -22,7 +22,7 @@ router.delete("/api/follow-users/:id", async (req, res) => {
     await db.run(`DELETE FROM follow_users WHERE users_id=? AND followed_users_id=?;`, 
     [req.body.id, req.params.id]);
     res.send({ data: `You unfollowed user with id: ${req.params.followUserId}` });
-}); 
+});
 
 
 export default router;

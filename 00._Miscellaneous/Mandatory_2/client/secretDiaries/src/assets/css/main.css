@@ -18,3 +18,13 @@
     margin: 3%;
 }
 
+.star {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star.active {
+    color: #ffcc00; /* Ændre farven til det ønskede udseende for aktive stjerner */
+}
+

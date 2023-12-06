@@ -7,6 +7,7 @@ if (isDeleteMode) {
     await db.exec("DROP TABLE IF EXISTS albums;");
     await db.exec("DROP TABLE IF EXISTS users_albums;");
     await db.exec("DROP TABLE IF EXISTS follow_users;");
+    await db.exec("DROP TABLE IF EXISTS album_reviews;");
 }
 
 
@@ -22,7 +23,8 @@ await db.exec(`CREATE TABLE IF NOT EXISTS albums (
     title VARCHAR(50) NOT NULL,
     artist VARCHAR(50) NOT NULL,
     genre VARCHAR(50),
-    rating int
+    rating DOUBLE DEFAULT 0,
+    review_count INTEGER DEFAULT 0
 );`);
 
 await db.exec(`CREATE TABLE IF NOT EXISTS users_albums ( 
@@ -35,6 +37,13 @@ await db.exec(`CREATE TABLE IF NOT EXISTS follow_users (
     followed_users_id INTEGER NOT NULL
 );`);
 
+await db.exec(`CREATE TABLE IF NOT EXISTS album_reviews ( 
+    users_id INTEGER NOT NULL,
+    albums_id INTEGER NOT NULL,
+    reviews_score INTEGER NOT NULL,
+    reviews_text TEXT
+);`);
+
 //SEED the DB (DML)
 if (isDeleteMode) {
     await db.run("INSERT INTO users (username, password) VALUES ('Lasse123', '$2b$14$pU04a5HEaatWExkjEbBCkuaccj5EgXzTrcO0V1MfIPktmuD0kHBcu');");
@@ -44,5 +53,5 @@ if (isDeleteMode) {
     await db.run("INSERT INTO users_albums (users_id, albums_id) VALUES (1, 1);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 1);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 2);");
-
+    await db.run("INSERT INTO album_reviews (users_id, albums_id, reviews_score, reviews_text) VALUES (1, 2, 5, 'FED ROCK!');");
 }

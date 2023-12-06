@@ -3,6 +3,8 @@
     import { navigate } from "svelte-navigator";
     import { currentUserId } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
+    import { navigateToAlbum } from "../../assets/js/sharedMethods.js";
+
    
 
     onMount(() => {
@@ -28,10 +30,6 @@
         } catch (error) {
             toastr["error"](error.message);
         }
-    }
-
-    function navigateToAlbum(album) {
-        navigate(`/album?title=${album.title}&artist=${album.artist}&genre=${album.genre}&rating=${album.rating}&id=${album.id}`);
     }
 
 </script>

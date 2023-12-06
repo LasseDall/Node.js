@@ -54,12 +54,10 @@ function authorize(req, res, next) {
 
 app.use("/api/auth", authRateLimiter);
 
-app.use("/api/diaries", authorize);
+//app.use("/api/", authorize);
 
 import authRouter from "./routers/authRouter.js";
 app.use(authRouter);
-import diariesRouter from "./routers/diariesRouter.js";
-app.use(diariesRouter);
 import emailRouter from "./routers/emailRouter.js";
 app.use(emailRouter);
 import albumsRouter from "./routers/albumsRouter.js";
@@ -70,6 +68,8 @@ import followUsersRouter from "./routers/followUsersRouter.js";
 app.use(followUsersRouter);
 import usersRouter from "./routers/usersRouter.js";
 app.use(usersRouter);
+import albumReviewsRouter from "./routers/albumReviewsRouter.js";
+app.use(albumReviewsRouter);
 
 
 
