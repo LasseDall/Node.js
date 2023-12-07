@@ -3,13 +3,10 @@ const router = Router();
 import db from "../databases/connection.js";
 
 router.get("/api/follow-albums/:id", async (req, res) => {
-    const followedAlbumsList = await db.all(`SELECT albums_id FROM users_albums WHERE users_id = ?;`,
+    const followedAlbumsList = await db.all(`SELECT users_albums.albums_id, albums.* FROM users_albums 
+    JOIN albums ON users_albums.albums_id = albums.id WHERE users_id = ?;`,
     req.params.id);
-    const placeholders = followedAlbumsList.map(() => '?').join(',');
-    const followedAlbumsIds = followedAlbumsList.map(followedAlbumsList => followedAlbumsList.albums_id);
-    const followedAlbums = await db.all(`SELECT * FROM albums WHERE id IN (${placeholders});`,
-    followedAlbumsIds);
-    res.send({ data: followedAlbums });
+    res.send({ data: followedAlbumsList });
 });
 
 router.post("/api/follow-albums", async (req, res) => {

@@ -21,16 +21,39 @@ router.post("/api/album-reviews", async (req, res) => {
     [req.body.userId, req.body.albumId, req.body.reviewScore, req.body.reviewText]);
     const albumRating = await db.get(`SELECT rating, review_count FROM albums WHERE id=?`,
     req.body.albumId);
-    const updatedReviewCount = albumRating.review_count + 1;
-    let updatedAlbumRating = Number(req.body.reviewScore);
+    const updatedReviewCount = Number(albumRating.review_count) + 1;
+    let updatedAlbumRating = req.body.reviewScore;
     if (updatedReviewCount > 1) {
         updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) + Number(req.body.reviewScore)) / Number(updatedReviewCount)
     }
     await db.run(`UPDATE albums SET rating = ${updatedAlbumRating}, review_count = ${updatedReviewCount} WHERE id=?`,
     req.body.albumId);
-    
     res.send({ data: [req.body.userId, req.body.albumId, req.body.reviewScore, req.body.reviewText] });
 }); 
+
+router.delete("/api/album-reviews/:id", async (req, res) => {
+    const deletedRating = await db.get(`SELECT reviews_score FROM album_reviews WHERE users_id=? AND albums_id=?;`, 
+    [req.body.id, req.params.id]);
+    if (!deletedRating) {
+        return res.status(404).send({ data: "Review not found" });
+    }
+    await db.run(`DELETE FROM album_reviews WHERE users_id=? AND albums_id=?;`, 
+    [req.body.id, req.params.id]);
+    const albumRating = await db.get(`SELECT rating, review_count FROM albums WHERE id=?`,
+    req.params.id);
+    if (!albumRating) {
+        return res.status(404).send({ data: "Rating not found" });
+    }
+    const updatedReviewCount = Number(albumRating.review_count) - 1;
+    let updatedAlbumRating = 0;
+    if (updatedReviewCount < 0) {
+        updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) - Number(deletedRating)) / Number(updatedReviewCount)
+    }
+    await db.run(`UPDATE albums SET rating = ${updatedAlbumRating}, review_count = ${updatedReviewCount} WHERE id=?`,
+    req.params.id);
+    res.send({ data: `Review with id: ${req.params.id} deleted` });
+}); 
+
 
 
 export default router;

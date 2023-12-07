@@ -3,7 +3,7 @@
     import { navigate } from "svelte-navigator";
     import { currentUserId, followedUsers } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import { navigateToAlbum, navigateToReview } from "../../assets/js/sharedMethods.js";
+    import { navigateToAlbum, navigateToReview, getStarGradient } from "../../assets/js/sharedMethods.js";
    
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -73,7 +73,7 @@
                 toastr["error"](result.data);
             } else {
                 const result = await response.json();
-                followedUsersIds = followedUsersIds.filter(album => album !== userId);
+                followedUsersIds = followedUsersIds.filter(album => album != userId);
                 followedUsers.set(followedUsersIds);
                 userFollowed = undefined;
                 toastr["success"](`You've unfollowed ${username}!`);
@@ -136,7 +136,9 @@
 {#each usersReviews as usersReview}
   <div class="review-box" on:click={() => navigateToCreateReview(usersReview)}>
     <h3>{usersReview.artist}: {usersReview.title}</h3>
-    <h3>{usersReview.reviews_text}</h3>
-    <h3>{usersReview.reviews_score}</h3>
+    {#each getStarGradient(usersReview.reviews_score) as gradient, i}
+        <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
+    {/each}
+    <span>: {usersReview.reviews_text}</span>
   </div>
 {/each}

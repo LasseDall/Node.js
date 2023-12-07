@@ -3,6 +3,7 @@
     import { navigate } from "svelte-navigator";
     import { currentUserId } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
+    import { navigateToUser } from "../../assets/js/sharedMethods.js";
 
     onMount(() => {
         getUsers();
@@ -27,10 +28,6 @@
         } catch (error) {
             toastr["error"](error.message);
         }
-    }
-
-    function navigateToUser(user) {
-        navigate(`/user-page?username=${user.username}&id=${user.id}`);
     }
 
 </script>

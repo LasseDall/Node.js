@@ -3,7 +3,7 @@
     import { navigate } from "svelte-navigator";
     import { currentUserId, likedAlbums, reviews } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import { navigateToReview, navigateToCreateReview } from "../../assets/js/sharedMethods.js";
+    import { navigateToReview, navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
    
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -16,14 +16,22 @@
     let likedAlbumsIds = $likedAlbums;
     let reviewedAlbumsId = $reviews;
     let albumReviews = [];
-
+  
     let albumLiked = likedAlbumsIds.find(album => album == id);
     let albumReviewed = reviewedAlbumsId.find(review => review == id);
-  
+
     onMount(() => {
         getAlbumReviews();
-        console.log(reviewedAlbumsId);
+        updateAlbumLikadAndAlbumReviewed();
     });
+
+    function updateAlbumLikadAndAlbumReviewed() {
+        likedAlbumsIds = $likedAlbums;
+        reviewedAlbumsId = $reviews;
+        albumLiked = likedAlbumsIds.find(album => album == id);
+        albumReviewed = reviewedAlbumsId.find(review => review == id);
+        console.log(albumLiked, albumReviewed)
+    }
 
 
     async function likeAlbum() {
@@ -78,7 +86,7 @@
                 toastr["error"](result.data);
             } else {
                 const result = await response.json();
-                likedAlbumsIds = likedAlbumsIds.filter(album => album !== id);
+                likedAlbumsIds = likedAlbumsIds.filter(album => album != id);
                 likedAlbums.set(likedAlbumsIds);
                 albumLiked = undefined;
                 toastr["success"](`You've unliked ${title}!`);
@@ -110,6 +118,11 @@
 <img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />
 <h2>{genre}</h2>
 <h3>{rating}</h3>
+<div>
+    {#each getStarGradient(rating) as gradient, i}
+      <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
+    {/each}
+</div>
 {#if albumLiked === undefined}
     <button on:click={() => likeAlbum()}>Like album</button>
 {:else}
@@ -122,6 +135,10 @@
 
 {#each albumReviews as albumReview}
   <div class="review-box" on:click={() => navigateToReview(albumReview)}>
-    <h3>{albumReview.reviews_score}: {albumReview.reviews_text}</h3>
+    <span>{albumReview.username}</span>
+    {#each getStarGradient(albumReview.reviews_score) as gradient, i}
+      <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
+    {/each}
+    <span>: {albumReview.reviews_text}</span>
   </div>
 {/each}

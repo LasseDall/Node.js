@@ -67,7 +67,6 @@
           </span>
         {/each}
         </div>
-        
     </div>
     <div class="input">
       <label for="reviwText">Comment:</label>  
