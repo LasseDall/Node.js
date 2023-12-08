@@ -25,4 +25,6 @@
 <input type="color" bind:value={color}>
 <button on:click={handleChooseColor}>Choose color</button>
 
-<ColorsList/>
+{#each $colorsList as colorsListItem}
+    <h4 style="background-color: {colorsListItem.color};">{colorsListItem.name}</h4>
+{/each}

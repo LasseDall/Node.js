@@ -9,6 +9,7 @@
         getUsers();
     });
 
+    let searchField = '';
     let users = [];
 
     const getUsers = async () => {
@@ -30,9 +31,33 @@
         }
     }
 
+    const handleSearch = async () => {
+        await getUsers();
+        const foundUserArray = [];
+        const foundUser = users.find(user => user.username.toLowerCase() == searchField.toLowerCase());
+        if (foundUser) {
+            foundUserArray.push(foundUser);
+            console.log(foundUserArray)
+            users = foundUserArray;
+        }
+    }
+
+    const handleReset = async () => {
+        await getUsers();
+    }
+
 </script>
 
-<h1>Users</h1>
+<form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
+    <span class="span-header">
+      User
+    </span>
+    <span class="search-span">
+        <input type="text" id="search" placeholder="search.." bind:value={searchField}/>
+        <button type="submit">Search</button>        
+        <button type="reset">Reset filters</button>
+    </span>
+</form>
 
 {#each users as user}
     <div class="user-box" on:click={() => navigateToUser(user)}>

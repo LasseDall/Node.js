@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "socket.io-client": "^4.7.2",
     "toastr": "^2.1.4"
   }
 }

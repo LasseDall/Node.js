@@ -11,6 +11,7 @@
   import UserPage from "./pages/UserPage/UserPage.svelte";
   import Review from "./pages/Review/Review.svelte";
   import CreateReview from "./pages/CreateReview/CreateReview.svelte";
+    import ChatRoom from "./pages/ChatRoom/ChatRoom.svelte";
 
   async function handleLogout() {
 		$currentUserId = null;
@@ -53,5 +54,7 @@
   <Route path="/review"> <Review /></Route>
   <Route path="/create-review"> <CreateReview /></Route>
   <Route path="/user-page"> <UserPage /></Route>
+  <Route path="/chat-room"> <ChatRoom /></Route>
+
 </div>
 </Router>

@@ -16,12 +16,14 @@ import session from "express-session";
 
 app.use(express.json());
 
-app.use(session({
+const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
-}));
+});
+
+app.use(sessionMiddleware);
 
 import { rateLimit } from 'express-rate-limit';
 
@@ -71,6 +73,28 @@ app.use(usersRouter);
 import albumReviewsRouter from "./routers/albumReviewsRouter.js";
 app.use(albumReviewsRouter);
 
+import http from "http";
+const server = http.createServer(app);
+
+import { Server } from "socket.io";
+
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: "*"
+    },
+    path: "/socket.io/"
+});
+
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+io.use(wrap(sessionMiddleware));
+
+io.on("connection", (socket) => {
+    socket.on("client-choose-a-color", (data) => {
+        io.emit("server-sent-a-color", data);
+        data.name = socket.request.session.name;
+    });
+});
 
 
 app.get("*", (req, res) => {
@@ -81,4 +105,10 @@ const PORT = Number(process.env.PORT || 8080);
 
 app.listen(PORT, () => {
     console.log("Server is running on port:", PORT);
+});
+
+const PORT_SOCKETIO = Number(process.env.PORT_SOCKETIO || 3001);
+
+server.listen(PORT_SOCKETIO, () => {
+    console.log("Socket.IO-server kører på port:", PORT_SOCKETIO);
 });
