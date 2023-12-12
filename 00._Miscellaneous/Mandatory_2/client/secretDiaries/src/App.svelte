@@ -1,5 +1,6 @@
 <script>
-  import { Router, Link, Route } from "svelte-navigator";
+  import { Router, Link, Route, navigate } from "svelte-navigator";
+  import { onMount } from 'svelte';
   import Home from "./pages/Home/Home.svelte";
   import PrivateRoute from "../PrivateRoute.svelte";
   import Login from "./pages/Login/Login.svelte";
@@ -11,13 +12,13 @@
   import UserPage from "./pages/UserPage/UserPage.svelte";
   import Review from "./pages/Review/Review.svelte";
   import CreateReview from "./pages/CreateReview/CreateReview.svelte";
-    import ChatRoom from "./pages/ChatRoom/ChatRoom.svelte";
+  import ChatRoom from "./pages/ChatRoom/ChatRoom.svelte";
 
   async function handleLogout() {
 		$currentUserId = null;
       
     try {
-        const response = await fetch(BASE_URL + "/api/auth/logout");
+        const response = await fetch(BASE_URL + "/auth/logout");
   
         if (!response.ok) {
             const result = await response.json();
@@ -31,30 +32,48 @@
     }
   };
 
+  onMount(() => {
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('nav a').forEach(link => {
+          link.classList.remove('active');
+        });
+        link.classList.add('active');
+      });
+    });
+  });
 </script>
 
 <Router>
   <nav>
     <Link to="/">Home</Link>
-    {#if $currentUserId}
-        <Link to="/" on:click={handleLogout}>Logout</Link>
-    {:else}
-        <Link to="/login">Login</Link>
-    {/if}
     <Link to="/music">Music</Link>
     <Link to="/users">Users</Link>
+    <Link to="/chat-room">Chat</Link>
+    {#if $currentUserId}
+      <Link to="/" on:click={handleLogout}>Logout</Link>
+    {:else}
+      <Link to="/login">Login</Link>
+  {/if}
 </nav>
 
 <div>
-  <Route path="/" component={Home}></Route>
-  <Route path="/login"> <Login /></Route>
-  <Route path="/music"> <Music /></Route>
-  <Route path="/users"> <Users /></Route>
-  <Route path="/album"> <Album /></Route>
-  <Route path="/review"> <Review /></Route>
-  <Route path="/create-review"> <CreateReview /></Route>
-  <Route path="/user-page"> <UserPage /></Route>
-  <Route path="/chat-room"> <ChatRoom /></Route>
+  <PrivateRoute path="/" let:location><Home /></PrivateRoute>
+  
+  <PrivateRoute path="/music" let:location><Music /></PrivateRoute>
+   
+  <PrivateRoute path="/users" let:location><Users /></PrivateRoute>
+  
+  <PrivateRoute path="/album" let:location><Album /></PrivateRoute>
 
+  <PrivateRoute path="/review" let:location><Review /></PrivateRoute>
+
+  <PrivateRoute path="/create-review" let:location><CreateReview /></PrivateRoute>
+
+  <PrivateRoute path="/user-page" let:location><UserPage /></PrivateRoute>
+
+  <PrivateRoute path="/chat-room" let:location><ChatRoom /></PrivateRoute>
+
+  <Route path="/login"><Login /></Route>
 </div>
 </Router>

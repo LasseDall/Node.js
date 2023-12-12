@@ -10,10 +10,16 @@ router.get("/api/users", async (req, res) => {
 
 router.post("/api/users", async (req, res) => {
     const saltRounds = 14;
-    const hashedPassword = await bcrypt.hashSync(req.body.password, saltRounds);
-    await db.run(`INSERT INTO users (username, password) VALUES (?, ?);`, 
-    [req.body.username, hashedPassword]);
-    res.send({ data: [req.body.username, hashedPassword] });
+    const username = req.body.username;
+    const password = req.body.password;
+    if (!password || !username) {
+        res.status(404).send({ data: "Data is missing" });
+    } else {
+        const hashedPassword = await bcrypt.hashSync(password, saltRounds);
+        await db.run(`INSERT INTO users (username, password) VALUES (?, ?);`, 
+        [req.body.username, hashedPassword]);
+        res.send({ data: [username, hashedPassword] });
+    }
 }); 
 
 export default router;

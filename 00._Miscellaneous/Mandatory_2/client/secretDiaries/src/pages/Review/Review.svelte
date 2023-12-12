@@ -11,5 +11,4 @@
     const title = urlParams.get('title');
 
 </script>
-
 <h1>{reviewText} {title}</h1>

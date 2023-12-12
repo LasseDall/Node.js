@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { useNavigate } from "svelte-navigator";
-    import { currentUserId, followedUsers, likedAlbums, reviews } from "../../stores/userStore.js";
+    import { currentUserId, followedUsers, likedAlbums, reviews, currentUserUsername } from "../../stores/userStore.js";
 
 	  const navigate = useNavigate();
 
@@ -45,7 +45,7 @@
       };
 
       try {
-        const response = await fetch(BASE_URL + "/api/auth/login", {
+        const response = await fetch(BASE_URL + "/auth/login", {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -61,6 +61,7 @@
             const result = await response.json();
             toastr["success"](`You are now logged in as ${result.data.username}`);
             currentUserId.set(result.data.id);
+            currentUserUsername.set(result.data.username);
             getFollowedUsers(result.data.id);
             getLikedAlbums(result.data.id);
             getReviewedAlbums(result.data.id);

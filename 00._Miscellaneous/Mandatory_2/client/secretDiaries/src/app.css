@@ -124,14 +124,19 @@ nav {
 
 nav a {
   margin: 15px;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
   text-decoration: none;
   color: #8e2222;
-  padding: 20px;
+  padding: 25px;
 }
 
 nav a:hover {
   color: #22aa42 !important;
   text-decoration: none;
 }
+
+nav a.active {
+  color: #22aa42;
+}
+

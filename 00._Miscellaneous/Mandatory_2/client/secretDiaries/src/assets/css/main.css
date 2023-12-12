@@ -55,3 +55,20 @@
     margin-left: 12%;
     padding-top: 2%;
 }
+
+.chat-input-div {
+    display: flex;
+    align-items: center;
+    margin-left: 30%;
+}
+
+.chat-messages-div {
+    background-color: azure;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    font-size: small;
+    text-align: left;
+    padding: 1%;
+}

@@ -16,7 +16,9 @@
     let likedAlbumsIds = $likedAlbums;
     let reviewedAlbumsId = $reviews;
     let albumReviews = [];
-  
+
+    export let text = "hdhdh"
+      
     let albumLiked = likedAlbumsIds.find(album => album == id);
     let albumReviewed = reviewedAlbumsId.find(review => review == id);
 
@@ -30,7 +32,6 @@
         reviewedAlbumsId = $reviews;
         albumLiked = likedAlbumsIds.find(album => album == id);
         albumReviewed = reviewedAlbumsId.find(review => review == id);
-        console.log(albumLiked, albumReviewed)
     }
 
 
@@ -98,7 +99,9 @@
 
     const getAlbumReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/albums/${id}`);
+            const response = await fetch(BASE_URL + `/api/album-reviews/albums/${id}`, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 const result = await response.json();

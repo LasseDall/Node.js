@@ -22,7 +22,9 @@
 
     const getCurrentUsersLikedAlbums = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${currentUser}`);
+            const response = await fetch(BASE_URL + `/api/follow-albums/${currentUser}`, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 const result = await response.json();
@@ -38,7 +40,9 @@
 
     const getCurrentUsersReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/users/${currentUser}`);
+            const response = await fetch(BASE_URL + `/api/album-reviews/users/${currentUser}`, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 const result = await response.json();
@@ -103,6 +107,7 @@
     
 
 </script>
+<h1>HOME</h1>
 
 {#each currentUsersLikedAlbums as likedAlbum}
   <div class="album-box" on:click={() => navigateToAlbum(likedAlbum)}>

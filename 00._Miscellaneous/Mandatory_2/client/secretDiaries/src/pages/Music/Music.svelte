@@ -83,6 +83,7 @@
   <div class="album-box" on:click={() => navigateToAlbum(album)}>
     <h3><img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />{album.artist}: {album.title}</h3>
     <h3>{album.genre}</h3>
+    <span>{album.rating}</span>
     {#each getStarGradient(album.rating) as gradient, i}
         <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
     {/each}

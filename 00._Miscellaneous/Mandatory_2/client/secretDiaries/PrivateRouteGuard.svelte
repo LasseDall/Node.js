@@ -10,7 +10,7 @@
 			state: { from: $location.pathname },
 			replace: true,
 		});
-		toastr["info"]("Login to read the secret diaries!");
+		toastr["info"]("Login to be a part of this cool music community!");
 	}
 </script>
 

@@ -12,16 +12,9 @@ app.use(cors({
     origin: true
 }));
 
-import session from "express-session";
+import { sessionMiddleware } from "./sessionHandler.js";
 
 app.use(express.json());
-
-const sessionMiddleware = session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-});
 
 app.use(sessionMiddleware);
 
@@ -46,17 +39,17 @@ const authRateLimiter = rateLimit({
 });
 
 function authorize(req, res, next) {
-    console.log(req.session.username);
     if (!req.session.username) {
-        res.status(403).send({ data: "Log ind for at se dagbøgerne!" });
+        res.status(403).send({ data: "Login to be a part of this cool community!" });
     } else {
         next();
     }
 }
 
-app.use("/api/auth", authRateLimiter);
+app.use("/auth/", authRateLimiter);
 
-//app.use("/api/", authorize);
+app.use("/api/", authorize);
+
 
 import authRouter from "./routers/authRouter.js";
 app.use(authRouter);
@@ -72,29 +65,8 @@ import usersRouter from "./routers/usersRouter.js";
 app.use(usersRouter);
 import albumReviewsRouter from "./routers/albumReviewsRouter.js";
 app.use(albumReviewsRouter);
-
-import http from "http";
-const server = http.createServer(app);
-
-import { Server } from "socket.io";
-
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        methods: "*"
-    },
-    path: "/socket.io/"
-});
-
-const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
-io.use(wrap(sessionMiddleware));
-
-io.on("connection", (socket) => {
-    socket.on("client-choose-a-color", (data) => {
-        io.emit("server-sent-a-color", data);
-        data.name = socket.request.session.name;
-    });
-});
+import chatRouter from "./routers/chatRouter.js";
+app.use(chatRouter);
 
 
 app.get("*", (req, res) => {
@@ -105,10 +77,4 @@ const PORT = Number(process.env.PORT || 8080);
 
 app.listen(PORT, () => {
     console.log("Server is running on port:", PORT);
-});
-
-const PORT_SOCKETIO = Number(process.env.PORT_SOCKETIO || 3001);
-
-server.listen(PORT_SOCKETIO, () => {
-    console.log("Socket.IO-server kører på port:", PORT_SOCKETIO);
 });

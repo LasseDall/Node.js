@@ -85,7 +85,9 @@
 
     const getUsersLikedAlbums = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${userId}`);
+            const response = await fetch(BASE_URL + `/api/follow-albums/${userId}`, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 const result = await response.json();
@@ -101,7 +103,9 @@
 
     const getUsersReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/users/${userId}`);
+            const response = await fetch(BASE_URL + `/api/album-reviews/users/${userId}`, {
+                credentials: 'include'
+            });
 
             if (!response.ok) {
                 const result = await response.json();
@@ -129,7 +133,10 @@
   <div class="album-box" on:click={() => navigateToAlbum(album)}>
     <h3><img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />{album.artist}: {album.title}</h3>
     <h3>{album.genre}</h3>
-    <h3>{album.rating}</h3>
+    <span>{album.rating}</span>
+    {#each getStarGradient(album.rating) as gradient, i}
+        <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
+    {/each}
   </div>
 {/each}
 
