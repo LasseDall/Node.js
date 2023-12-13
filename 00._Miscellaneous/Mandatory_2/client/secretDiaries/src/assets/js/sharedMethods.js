@@ -5,7 +5,7 @@ export function navigateToAlbum(album) {
 }
 
 export function navigateToReview(review) {
-    navigate(`/review?review_score=${review.reviews_score}&review_text=${review.reviews_text}&album_id=${review.albums_id}&title=${review.title}&artist=${review.artist}&username=${review.username}&uid=${review.users_id}`);
+    navigate(`/review?album_id=${review.albums_id}&uid=${review.users_id}`);
 }
 
 export function navigateToCreateReview(id, title, artist) {

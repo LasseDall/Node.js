@@ -36,14 +36,37 @@ router.get("/api/album-reviews/albums/:id", async (req, res) => {
     }
 }); 
 
+router.get("/api/album-reviews/:userId/:albumId", async (req, res) => {
+    const userId = req.params.userId;
+    const albumId = req.params.albumId;
+
+    if(isNaN(userId) || isNaN(albumId)) {
+        res.status(404).send({ data: "Id was not a number" });
+    } else {
+        const review = await db.all(`SELECT users.username, albums.*, album_reviews.* FROM album_reviews
+                                     JOIN albums ON album_reviews.albums_id = albums.id
+                                     JOIN users ON album_reviews.users_id = users.id  
+                                     WHERE users_id = ? AND albums_id = ?;`,
+                                     [userId, albumId]);
+        
+        if(review) {
+            res.send({ data: review });
+        } else {
+            res.status(404).send({ data: "No reviews found" });
+        }
+    }
+});
+
 router.post("/api/album-reviews", async (req, res) => {
     const userId = req.body.userId;
     const albumId = req.body.albumId;
     const reviewScore = req.body.reviewScore;
+    const reviewText = req.body.reviewText;
+
     
     if(!isNaN(userId) || !isNaN(albumId) || !isNaN(reviewScore)) {
         await db.run(`INSERT INTO album_reviews (users_id, albums_id, reviews_score, reviews_text) VALUES (?, ?, ?, ?);`, 
-                      [userId, albumId, reviewScore, req.body.reviewText]);
+                      [userId, albumId, reviewScore, reviewText]);
         const albumRating = await db.get(`SELECT rating, review_count FROM albums WHERE id=?`,
                                           albumId);
         if (albumRating) {
@@ -67,7 +90,7 @@ router.post("/api/album-reviews", async (req, res) => {
 router.delete("/api/album-reviews/:id", async (req, res) => {
     const albumId = req.params.id;
     const userId = req.body.id;
-    if(!isNaN(id)) {
+    if(!isNaN(userId) || !isNaN(albumId)) {
         const deletedRating = await db.get(`SELECT reviews_score FROM album_reviews WHERE users_id=? AND albums_id=?;`, 
                                             [userId, albumId]);
         if (!deletedRating) {

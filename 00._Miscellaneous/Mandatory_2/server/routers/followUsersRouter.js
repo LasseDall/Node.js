@@ -32,9 +32,9 @@ router.post("/api/follow-users", async (req, res) => {
 }); 
 
 router.delete("/api/follow-users/:id", async (req, res) => {
-    const userId = req.body.id;
-    const followUserId = req.body.id;
-    if (isNaN(id) ||isNaN(followUserId)) {
+    const userId = req.body.userId;
+    const followUserId = req.body.followUserId;
+    if (isNaN(userId) ||isNaN(followUserId)) {
         res.status(404).send({ data: "An id was not a number" });
     } else {
         await db.run(`DELETE FROM follow_users WHERE users_id=? AND followed_users_id=?;`, 

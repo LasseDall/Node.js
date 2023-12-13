@@ -1,10 +1,8 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
-    import { navigate } from "svelte-navigator";
-    import { currentUserId } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
     import { navigateToUser } from "../../assets/js/sharedMethods.js";
-
+    
     onMount(() => {
         getUsers();
     });
@@ -12,8 +10,30 @@
     let searchField = '';
     let users = [];
 
-    const getUsers = async () => {
+    const ITEMS_PER_PAGE = 10;
+    let currentPage = 1;
+    let totalPages = 1;
+    let totalUsers;
 
+    const handleNextPage = async () => {
+        if (currentPage < totalPages) {
+            currentPage += 1;
+            await getUsers();
+        }
+    };
+
+    const handlePrevPage = async () => {
+        if (currentPage > 1) {
+            currentPage -= 1;
+            await getUsers();
+        }
+    };
+
+    const updatePagination = () => {
+        totalPages = Math.ceil(totalUsers / ITEMS_PER_PAGE);
+    };
+
+    const getUsers = async () => {
         try {
             const response = await fetch(BASE_URL + `/api/users`, {
                 credentials: "include" 
@@ -24,7 +44,9 @@
                 toastr["error"](result.data);
             } else {
                 const result = await response.json();
-                users = result.data;
+                users = result.data.users;
+                totalUsers = result.data.totalUsers;
+                updatePagination();
             }
         } catch (error) {
             toastr["error"](error.message);
@@ -64,3 +86,9 @@
         <h3><img src="/src/assets/images/user-icon.jpg" class="user-icon" />{user.username}</h3>
     </div>
 {/each}
+
+<div class="pagination">
+    <button on:click={handlePrevPage} disabled={currentPage === 1}>Previous</button>
+    <span>{currentPage} of {totalPages}</span>
+    <button on:click={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+</div>

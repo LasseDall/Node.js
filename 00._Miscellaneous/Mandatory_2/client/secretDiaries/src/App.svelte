@@ -13,6 +13,7 @@
   import Review from "./pages/Review/Review.svelte";
   import CreateReview from "./pages/CreateReview/CreateReview.svelte";
   import ChatRoom from "./pages/ChatRoom/ChatRoom.svelte";
+  import Signup from "./pages/Signup/Signup.svelte";
 
   async function handleLogout() {
 		$currentUserId = null;
@@ -25,6 +26,7 @@
             toastr["error"](result.data);
         } else {
             const result = await response.json();
+            localStorage.clear;
             toastr["success"](result.data);
         }
     } catch (error) {
@@ -50,7 +52,7 @@
     <Link to="/music">Music</Link>
     <Link to="/users">Users</Link>
     <Link to="/chat-room">Chat</Link>
-    {#if $currentUserId}
+    {#if $currentUserId !== null}
       <Link to="/" on:click={handleLogout}>Logout</Link>
     {:else}
       <Link to="/login">Login</Link>
@@ -73,6 +75,8 @@
   <PrivateRoute path="/user-page" let:location><UserPage /></PrivateRoute>
 
   <PrivateRoute path="/chat-room" let:location><ChatRoom /></PrivateRoute>
+
+  <Route path="/signup"><Signup /></Route>
 
   <Route path="/login"><Login /></Route>
 </div>

@@ -1,10 +1,9 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
-    import { navigate } from "svelte-navigator";
+    import { useNavigate } from "svelte-navigator";
     import { currentUserId, reviews } from "../../stores/userStore.js";
-    import { onMount } from 'svelte';
-    import { navigateToReview, navigateToCreateReview } from "../../assets/js/sharedMethods.js";
 
+    const navigate = useNavigate();
     const urlParams = new URLSearchParams(window.location.search);
 
     const currentUser = $currentUserId;

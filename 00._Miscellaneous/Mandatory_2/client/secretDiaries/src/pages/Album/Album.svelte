@@ -1,6 +1,5 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
-    import { navigate } from "svelte-navigator";
     import { currentUserId, likedAlbums, reviews } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
     import { navigateToReview, navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
@@ -142,6 +141,6 @@
     {#each getStarGradient(albumReview.reviews_score) as gradient, i}
       <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
     {/each}
-    <span>: {albumReview.reviews_text}</span>
+    <span>: {albumReview.reviews_text.length > 50 ? `${albumReview.reviews_text.substring(0, 50)}...` : albumReview.reviews_text}</span>
   </div>
 {/each}

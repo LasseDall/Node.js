@@ -15,7 +15,10 @@ if (isDeleteMode) {
 await db.exec(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     username VARCHAR(50) NOT NULL,
-    password TEXT
+    password TEXT NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL
 );`);
 
 await db.exec(`CREATE TABLE IF NOT EXISTS albums (
@@ -23,6 +26,7 @@ await db.exec(`CREATE TABLE IF NOT EXISTS albums (
     title VARCHAR(50) NOT NULL,
     artist VARCHAR(50) NOT NULL,
     genre VARCHAR(50),
+    year INTEGER,
     rating DOUBLE DEFAULT 0,
     review_count INTEGER DEFAULT 0
 );`);
@@ -46,10 +50,10 @@ await db.exec(`CREATE TABLE IF NOT EXISTS album_reviews (
 
 //SEED the DB (DML)
 if (isDeleteMode) {
-    await db.run("INSERT INTO users (username, password) VALUES ('Lasse123', '$2b$14$pU04a5HEaatWExkjEbBCkuaccj5EgXzTrcO0V1MfIPktmuD0kHBcu');");
-    await db.run("INSERT INTO users (username, password) VALUES ('Brian', '$2b$14$pU04a5HEaatWExkjEbBCkuaccj5EgXzTrcO0V1MfIPktmuD0kHBcu');");
-    await db.run("INSERT INTO albums (title, artist, genre) VALUES ('The Wall', 'Pink Floyd', 'Prog Rock');");
-    await db.run("INSERT INTO albums (title, artist, genre) VALUES ('Animals', 'Pink Floyd', 'Prog Rock');");
+    await db.run("INSERT INTO users (username, password, first_name, last_name, email) VALUES ('Lasse123', '$2b$14$pU04a5HEaatWExkjEbBCkuaccj5EgXzTrcO0V1MfIPktmuD0kHBcu', 'Lasse', 'Dall', 'lasse@dall.dk');");
+    await db.run("INSERT INTO users (username, password, first_name, last_name, email) VALUES ('Brian', '$2b$14$pU04a5HEaatWExkjEbBCkuaccj5EgXzTrcO0V1MfIPktmuD0kHBcu', 'Brian', 'Larsen', 'brian@live.dk');");
+    await db.run("INSERT INTO albums (title, artist, genre, year) VALUES ('The Wall', 'Pink Floyd', 'Prog Rock', 1985);");
+    await db.run("INSERT INTO albums (title, artist, genre, year) VALUES ('Animals', 'Pink Floyd', 'Prog Rock', 1983);");
     await db.run("INSERT INTO users_albums (users_id, albums_id) VALUES (1, 1);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 1);");
     await db.run("INSERT INTO follow_users (users_id, followed_users_id) VALUES (1, 2);");

@@ -142,12 +142,15 @@
     </div>
 
     <div class="input">
-      <label for="password">Passeword:</label>
+      <label for="password">Password:</label>
       <input type="password" id="password" bind:value={password} />
     </div>
 
-    <button type="submit">Login</button>
+    <button type="submit">Login</button> 
+    <button on:click={() => navigate("/signup")}>Signup</button>
   </form>
+  
+ 
 
   <br><h2>Want to join the secret club?</h2>
   <h3>Let us send you an email, and you'll be considered as a member!</h3><br>
