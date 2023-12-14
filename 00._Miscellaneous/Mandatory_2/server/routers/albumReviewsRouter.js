@@ -73,7 +73,7 @@ router.post("/api/album-reviews", async (req, res) => {
             const updatedReviewCount = Number(albumRating.review_count) + 1;
             let updatedAlbumRating = req.body.reviewScore;
             if (updatedReviewCount > 1) {
-                updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) + Number(req.body.reviewScore)) / Number(updatedReviewCount)
+                updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) + Number(req.body.reviewScore)) / Number(updatedReviewCount);
             }
             await db.run(`UPDATE albums SET rating = ${updatedAlbumRating}, review_count = ${updatedReviewCount} WHERE id=?`,
                           albumId);
@@ -82,9 +82,8 @@ router.post("/api/album-reviews", async (req, res) => {
             res.status(404).send({ data: "Album was not found" });
         }
     } else {
-        res.status(404).send({ data: "An id was not a number" })
+        res.status(404).send({ data: "An id was not a number" });
     }
-
 }); 
 
 router.delete("/api/album-reviews/:id", async (req, res) => {
@@ -117,7 +116,5 @@ router.delete("/api/album-reviews/:id", async (req, res) => {
         res.status(404).send({ data: "An id was not a number" });
     }
 });
-
-
 
 export default router;

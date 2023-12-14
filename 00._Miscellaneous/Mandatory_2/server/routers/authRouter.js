@@ -3,9 +3,6 @@ const router = Router();
 import db from "../databases/connection.js";
 
 import bcrypt from "bcrypt";
-import session from "express-session";
-
-const saltRounds = 14;
 
 router.get("/auth/logout", (req, res) => {
     req.session.destroy(() => {

@@ -28,7 +28,7 @@ router.get("/api/users", async (req, res) => {
         if (foundUsers !== null) {
             res.send({ data: foundUsers });
         } else {
-            res.status(404).send({ data: "No user matches the search criteria" })
+            res.status(404).send({ data: "No user matches the search criteria" });
         }
     } else {
         try {

@@ -15,7 +15,7 @@
       };
 
       try {
-        const response = await fetch(BASE_URL + "/auth/login", {
+        const response = await fetch($BASE_URL + "/auth/login", {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -44,7 +44,7 @@
 
     async function getLikedAlbums(userId) {
       try {
-        const response = await fetch(BASE_URL + "/api/follow-albums/" + userId, {
+        const response = await fetch($BASE_URL + "/api/follow-albums/" + userId, {
           credentials: 'include'
         });
         
@@ -63,7 +63,7 @@
 
     async function getFollowedUsers(userId) {
       try {
-        const response = await fetch(BASE_URL + "/api/follow-users/" + userId, {
+        const response = await fetch($BASE_URL + "/api/follow-users/" + userId, {
           credentials: 'include'
         });
   
@@ -82,7 +82,7 @@
 
     async function getReviewedAlbums(userId) {
       try {
-        const response = await fetch(BASE_URL + "/api/album-reviews/users/" + userId, {
+        const response = await fetch($BASE_URL + "/api/album-reviews/users/" + userId, {
           credentials: 'include'
         });
   
