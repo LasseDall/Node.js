@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
-    import { navigateToUser } from "../../assets/js/sharedMethods.js";
+    import UserComponent from "../UserComponent/UserComponent.svelte";
     
     onMount(() => {
         getUsers();
@@ -81,11 +81,7 @@
     </span>
 </form>
 
-{#each users as user}
-    <div class="user-box" on:click={() => navigateToUser(user)}>
-        <h3><img src="/src/assets/images/user-icon.jpg" class="user-icon" />{user.username}</h3>
-    </div>
-{/each}
+<UserComponent {users} />
 
 <div class="pagination">
     <button on:click={handlePrevPage} disabled={currentPage === 1}>Previous</button>

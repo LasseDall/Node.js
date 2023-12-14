@@ -35,11 +35,39 @@
             } else {
                 const result = await response.json();
                 toastr["success"](`You are now signed up as ${result.data.username}`);
+                sendEmail();
                 navigate("/login");
             }
         } catch (error) {
             toastr["error"](error.message);
         }
+    }
+
+    const sendEmail = async () => {
+      const data = {
+        name: firstName,
+        email
+      };
+
+      try {
+        const response = await fetch(BASE_URL + "/email/sendemail", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (!response.ok) {
+            const result = await response.json();
+            toastr["error"](result.data);
+        } else {
+            const result = await response.json();
+            toastr["success"]("A welcome email was send to you!");
+        }
+      } catch (error) {
+        toastr["error"](error.message);
+      }
     }
 </script>
 

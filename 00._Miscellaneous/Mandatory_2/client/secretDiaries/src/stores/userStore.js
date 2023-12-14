@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 const storedUserId = localStorage.getItem('currentUserId');
 export const currentUserId = writable(storedUserId || null);
-const storedUsername = localStorage.getItem('currentUserUsername');
+const storedUsername = localStorage.getItem('currentUsername');
 export const currentUserUsername = writable(storedUsername || null);
 const storedFollowedUsers = localStorage.getItem('followedUsers');
 export const followedUsers = writable(storedFollowedUsers ? JSON.parse(storedFollowedUsers) : []);

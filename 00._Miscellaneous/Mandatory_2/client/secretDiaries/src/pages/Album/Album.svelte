@@ -3,41 +3,65 @@
     import { currentUserId, likedAlbums, reviews } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
     import { navigateToReview, navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
+    import AlbumReviews from "../AlbumReviews/AlbumReviews.svelte";
    
     const urlParams = new URLSearchParams(window.location.search);
 
-    const title = urlParams.get('title');
-    const artist = urlParams.get('artist');
-    const genre = urlParams.get('genre');
-    const rating = urlParams.get('rating');
-    const id = urlParams.get('id');
+    const albumId = urlParams.get('id');
     const currentUser = $currentUserId;
     let likedAlbumsIds = $likedAlbums;
     let reviewedAlbumsId = $reviews;
     let albumReviews = [];
 
-    export let text = "hdhdh"
+    let rating;
+    let genre;
+    let title;
+    let artist;
+    let year;
       
-    let albumLiked = likedAlbumsIds.find(album => album == id);
-    let albumReviewed = reviewedAlbumsId.find(review => review == id);
+    let albumLiked = likedAlbumsIds.find(album => album == albumId);
+    let albumReviewed = reviewedAlbumsId.find(review => review == albumId);
 
-    onMount(() => {
+    onMount(async () => {
         getAlbumReviews();
         updateAlbumLikadAndAlbumReviewed();
+        await getAlbum();
     });
+
+    async function getAlbum() {
+        try {
+            const response = await fetch(BASE_URL + `/api/albums/${albumId}`, {
+            credentials: "include" 
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                toastr["error"](result.data);
+            } else {
+                const result = await response.json();
+                rating = result.data.rating;
+                genre = result.data.genre;
+                title = result.data.title;
+                artist = result.data.artist;
+                year = result.data.year;
+            }
+        } catch (error) {
+            toastr["error"](error.message);
+        }
+    }
 
     function updateAlbumLikadAndAlbumReviewed() {
         likedAlbumsIds = $likedAlbums;
         reviewedAlbumsId = $reviews;
-        albumLiked = likedAlbumsIds.find(album => album == id);
-        albumReviewed = reviewedAlbumsId.find(review => review == id);
+        albumLiked = likedAlbumsIds.find(album => album == albumId);
+        albumReviewed = reviewedAlbumsId.find(review => review == albumId);
     }
 
 
     async function likeAlbum() {
         const data = {
             id: currentUser,
-            albumId: id
+            albumId
         };
 
         try {
@@ -55,7 +79,7 @@
                 toastr["error"](result.data);
         } else {
             const result = await response.json();
-            likedAlbumsIds.push(id);
+            likedAlbumsIds.push(albumId);
             likedAlbums.set(likedAlbumsIds);
             albumLiked = 1;
             toastr["success"](`You've liked ${title}!`);
@@ -72,7 +96,7 @@
         };
 
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${id}`, {
+            const response = await fetch(BASE_URL + `/api/follow-albums/${albumId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -86,7 +110,7 @@
                 toastr["error"](result.data);
             } else {
                 const result = await response.json();
-                likedAlbumsIds = likedAlbumsIds.filter(album => album != id);
+                likedAlbumsIds = likedAlbumsIds.filter(album => album != albumId);
                 likedAlbums.set(likedAlbumsIds);
                 albumLiked = undefined;
                 toastr["success"](`You've unliked ${title}!`);
@@ -98,7 +122,7 @@
 
     const getAlbumReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/albums/${id}`, {
+            const response = await fetch(BASE_URL + `/api/album-reviews/albums/${albumId}`, {
                 credentials: 'include'
             });
 
@@ -132,15 +156,7 @@
 {/if}
 
 {#if albumReviewed == undefined}
-    <button on:click={() => navigateToCreateReview(id, title, artist)}>Review album</button>    
+    <button on:click={() => navigateToCreateReview(albumId, title, artist)}>Review album</button>    
 {/if}
 
-{#each albumReviews as albumReview}
-  <div class="review-box" on:click={() => navigateToReview(albumReview)}>
-    <span>{albumReview.username}</span>
-    {#each getStarGradient(albumReview.reviews_score) as gradient, i}
-      <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
-    {/each}
-    <span>: {albumReview.reviews_text.length > 50 ? `${albumReview.reviews_text.substring(0, 50)}...` : albumReview.reviews_text}</span>
-  </div>
-{/each}
+<AlbumReviews {albumReviews} />

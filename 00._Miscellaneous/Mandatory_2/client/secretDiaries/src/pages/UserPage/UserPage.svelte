@@ -2,7 +2,9 @@
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { currentUserId, followedUsers } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import { navigateToAlbum, navigateToReview, getStarGradient } from "../../assets/js/sharedMethods.js";
+    import LikedAlbums from "../AlbumComponent/AlbumComponent.svelte";
+    import ReviewedAlbums from "../ReviewedAlbums/ReviewedAlbums.svelte";
+    import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
    
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -129,23 +131,8 @@
     <button on:click={() => unfollowUser()}>Unfollow user</button>
 {/if}
 
-{#each usersLikedAlbums as album}
-  <div class="album-box" on:click={() => navigateToAlbum(album)}>
-    <h3><img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />{album.artist}: {album.title}</h3>
-    <h3>{album.genre}</h3>
-    <span>{album.rating}</span>
-    {#each getStarGradient(album.rating) as gradient, i}
-        <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
-    {/each}
-  </div>
-{/each}
+<h2>{username}'s liked albums:</h2>
+<AlbumComponent albums={usersLikedAlbums} />
 
-{#each usersReviews as usersReview}
-  <div class="review-box" on:click={() => navigateToCreateReview(usersReview)}>
-    <h3>{usersReview.artist}: {usersReview.title}</h3>
-    {#each getStarGradient(usersReview.reviews_score) as gradient, i}
-        <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
-    {/each}
-    <span>: {usersReview.reviews_text.length > 50 ? `${usersReview.reviews_text.substring(0, 50)}...` : usersReview.reviews_text}</span>
-  </div>
-{/each}
+<h2>{username}'s reviews:</h2>
+<ReviewedAlbums {usersReviews} />

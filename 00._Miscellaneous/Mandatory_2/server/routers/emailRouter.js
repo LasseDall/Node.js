@@ -20,14 +20,16 @@ async function sendEmail(name, email) {
             to: email, 
             subject: "Hello", 
             text: `Hello ${name}`,
-            html: `<b>Hello ${name}</b>`,
+            html: `<b>Hello ${name}</b><br>
+                   Welcome to Music Forum - Probably the coolest music community in the world! <br>
+                   Best regards Music Forum`,
           });
     } catch(error) {
         console.log(error.message);
     }
 }
 
-router.post("/api/email/sendEmail", async (req, res) => {
+router.post("/email/sendEmail", async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
 
