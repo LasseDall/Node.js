@@ -17,12 +17,12 @@
 
     const updateVisibleUsers = () => {
         visibleUsers = users.slice(0, showMoreUsersCount);
-    };
+    }
 
     const showMoreUsers = () => {
         showMoreUsersCount += 10;
         updateVisibleUsers();
-    };
+    }
 </script>
 
 {#if users.length === 0}

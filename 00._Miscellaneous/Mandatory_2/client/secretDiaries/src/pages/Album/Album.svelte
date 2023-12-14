@@ -2,7 +2,7 @@
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { currentUserId, likedAlbums, reviews } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import { navigateToReview, navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
+    import { navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
     import AlbumReviews from "../AlbumReviews/AlbumReviews.svelte";
    
     const urlParams = new URLSearchParams(window.location.search);
@@ -30,8 +30,8 @@
 
     async function getAlbum() {
         try {
-            const response = await fetch(BASE_URL + `/api/albums/${albumId}`, {
-            credentials: "include" 
+            const response = await fetch($BASE_URL + `/api/albums/${albumId}`, {
+                credentials: "include" 
             });
 
             if (!response.ok) {
@@ -62,10 +62,10 @@
         const data = {
             id: currentUser,
             albumId
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums`, {
+            const response = await fetch($BASE_URL + `/api/follow-albums`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -93,10 +93,10 @@
     async function unlikeAlbum() {
         const data = {
             id: currentUser,
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${albumId}`, {
+            const response = await fetch($BASE_URL + `/api/follow-albums/${albumId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -122,7 +122,7 @@
 
     const getAlbumReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/albums/${albumId}`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews/albums/${albumId}`, {
                 credentials: 'include'
             });
 
@@ -137,7 +137,6 @@
             toastr["error"](error.message);
         }
     }
-
 </script>
 
 <h1>{artist}: {title}</h1>

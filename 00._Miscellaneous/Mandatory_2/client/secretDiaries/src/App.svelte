@@ -19,7 +19,7 @@
 		$currentUserId = null;
       
     try {
-        const response = await fetch(BASE_URL + "/auth/logout");
+        const response = await fetch($BASE_URL + "/auth/logout");
   
         if (!response.ok) {
             const result = await response.json();

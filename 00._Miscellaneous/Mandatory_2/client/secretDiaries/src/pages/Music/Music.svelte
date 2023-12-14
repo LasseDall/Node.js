@@ -1,7 +1,6 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
-    import { navigateToAlbum, getStarGradient } from "../../assets/js/sharedMethods.js";
     import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
 
 
@@ -29,22 +28,22 @@
             currentPage += 1;
             await getAlbums();
         }
-    };
+    }
 
     const handlePrevPage = async () => {
         if (currentPage > 1) {
             currentPage -= 1;
             await getAlbums();
         }
-    };
+    }
 
     const updatePagination = () => {
         totalPages = Math.ceil(totalAlbums / ITEMS_PER_PAGE);
-    };
+    }
 
     const getAlbums = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/albums?page=${currentPage}`, {
+            const response = await fetch($BASE_URL + `/api/albums?page=${currentPage}`, {
                 credentials: "include" 
             });
   
@@ -64,7 +63,7 @@
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/albums?searchField=${searchField}`, {
+            const response = await fetch($BASE_URL + `/api/albums?searchField=${searchField}`, {
                 credentials: "include" 
             });
   
@@ -93,10 +92,10 @@
             artist,
             genre,
             year
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/albums`, {
+            const response = await fetch($BASE_URL + `/api/albums`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -123,9 +122,7 @@
 </script>
 
 <form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
-    <span class="span-header">
-      Music
-    </span>
+    <span class="span-header">Music</span>
     <span class="search-span">
         <input type="text" id="search" placeholder="search.." bind:value={searchField}/>
         <button type="submit">Search</button>        

@@ -32,10 +32,10 @@
     async function deleteReview(albumId, title) {
         const data = {
             id: currentUser,
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/${albumId}`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews/${albumId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

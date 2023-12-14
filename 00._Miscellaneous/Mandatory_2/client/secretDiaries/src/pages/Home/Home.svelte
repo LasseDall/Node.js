@@ -6,7 +6,6 @@
     import ReviewedAlbums from "../ReviewedAlbums/ReviewedAlbums.svelte";
     import FollowedUsers from "../UserComponent/UserComponent.svelte";
 
-
     const currentUser = $currentUserId;
 
     let usersLikedAlbums = [];
@@ -21,7 +20,7 @@
 
     const getCurrentUsersLikedAlbums = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${currentUser}`, {
+            const response = await fetch($BASE_URL + `/api/follow-albums/${currentUser}`, {
                 credentials: 'include'
             });
 
@@ -39,7 +38,7 @@
 
     const getCurrentUsersReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/users/${currentUser}`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews/users/${currentUser}`, {
                 credentials: 'include'
             });
 
@@ -57,7 +56,7 @@
 
     const getCurrentUsersFollowedUsers = async () => {
       try {
-        const response = await fetch(BASE_URL + `/api/follow-users/${currentUser}`, {
+        const response = await fetch($BASE_URL + `/api/follow-users/${currentUser}`, {
           credentials: 'include'
         });
   
@@ -71,11 +70,9 @@
       } catch (error) {
         toastr["error"](error.message);
       }
-    };
-
-
-
+    }
 </script>
+
 <h1>{$currentUserUsername}</h1>
 
 <h2>Your liked albums:</h2>

@@ -1,7 +1,5 @@
 <script>
     import { navigateToReview, getStarGradient } from "../../assets/js/sharedMethods.js";
-    import { reviews } from "../../stores/userStore.js";
-    import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
 
     onMount(async () => {
@@ -36,7 +34,7 @@
             {#each getStarGradient(review.reviews_score) as gradient, i}
                 <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
             {/each}
-            <span>: {review.reviews_text.length > 50 ? `${review.reviews_text.substring(0, 50)}...` : usersReview.reviews_text}</span>
+            <span>: {review.reviews_text.length > 50 ? `${review.reviews_text.substring(0, 50)}...` : review.reviews_text}</span>
         </div>
     {/each}
     {#if visibleReviews.length > showMoreReviewsCount}

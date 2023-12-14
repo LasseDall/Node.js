@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
-    import {  getStarGradient } from "../../assets/js/sharedMethods.js";
+    import { getStarGradient } from "../../assets/js/sharedMethods.js";
     
     onMount(() => {
         getReview();
@@ -14,11 +14,10 @@
     const userId = urlParams.get('uid');
 
     let review;
-    let displayReview;
 
     async function getReview() {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/${userId}/${albumId}`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews/${userId}/${albumId}`, {
             credentials: "include" 
             });
 
@@ -45,5 +44,4 @@
         <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
     {/each}
     <h4>By: {review[0].username}</h4>
-
 {/if}

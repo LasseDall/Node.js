@@ -2,7 +2,6 @@
     import { currentUserId, currentUserUsername } from "../../stores/userStore.js";
     import { chatList } from "../../stores/chatStore.js";
     import { onDestroy } from 'svelte';
-    
     import io from "socket.io-client";
 
     const currentUser = $currentUserId;

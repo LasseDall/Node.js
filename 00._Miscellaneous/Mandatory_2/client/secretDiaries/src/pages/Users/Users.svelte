@@ -35,7 +35,7 @@
 
     const getUsers = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/users`, {
+            const response = await fetch($BASE_URL + `/api/users`, {
                 credentials: "include" 
             });
   
@@ -71,9 +71,7 @@
 </script>
 
 <form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
-    <span class="span-header">
-      User
-    </span>
+    <span class="span-header">User</span>
     <span class="search-span">
         <input type="text" id="search" placeholder="search.." bind:value={searchField}/>
         <button type="submit">Search</button>        

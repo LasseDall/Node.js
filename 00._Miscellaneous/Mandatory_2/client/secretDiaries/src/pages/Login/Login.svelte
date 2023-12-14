@@ -12,7 +12,7 @@
       const data = {
         username,
         password
-      };
+      }
 
       try {
         const response = await fetch($BASE_URL + "/auth/login", {
@@ -40,7 +40,7 @@
       } catch (error) {
         toastr["error"](error.message);
       }
-    };
+    }
 
     async function getLikedAlbums(userId) {
       try {
@@ -59,7 +59,7 @@
       } catch (error) {
         toastr["error"](error.message);
       }
-    };
+    }
 
     async function getFollowedUsers(userId) {
       try {
@@ -78,7 +78,7 @@
       } catch (error) {
         toastr["error"](error.message);
       }
-    };
+    }
 
     async function getReviewedAlbums(userId) {
       try {
@@ -97,7 +97,7 @@
       } catch (error) {
         toastr["error"](error.message);
       }
-    };
+    }
     
 
 

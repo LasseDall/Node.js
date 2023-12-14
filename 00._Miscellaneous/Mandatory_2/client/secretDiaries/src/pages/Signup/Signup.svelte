@@ -17,10 +17,10 @@
             firstName,
             lastName,
             email
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/auth/users`, {
+            const response = await fetch($BASE_URL + `/auth/users`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -47,10 +47,10 @@
       const data = {
         name: firstName,
         email
-      };
+      }
 
       try {
-        const response = await fetch(BASE_URL + "/email/sendemail", {
+        const response = await fetch($BASE_URL + "/email/sendemail", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

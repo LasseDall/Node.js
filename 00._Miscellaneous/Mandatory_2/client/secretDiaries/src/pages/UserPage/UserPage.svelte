@@ -2,7 +2,6 @@
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { currentUserId, followedUsers } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import LikedAlbums from "../AlbumComponent/AlbumComponent.svelte";
     import ReviewedAlbums from "../ReviewedAlbums/ReviewedAlbums.svelte";
     import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
    
@@ -10,6 +9,7 @@
 
     const username = urlParams.get('username');
     const userId = urlParams.get('id');
+
     const currentUser = $currentUserId;
     let followedUsersIds = $followedUsers;
 
@@ -27,10 +27,10 @@
         const data = {
             id: currentUser,
             followUserId: userId
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/follow-users`, {
+            const response = await fetch($BASE_URL + `/api/follow-users`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -43,7 +43,6 @@
                 const result = await response.json();
                 toastr["error"](result.data);
             } else {
-                const result = await response.json();
                 followedUsersIds.push(userId);
                 followedUsers.set(followedUsersIds);
                 userFollowed = 1;
@@ -58,10 +57,10 @@
         const data = {
             userId: currentUser,
             followUserId: userId
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/follow-users/${userId}`, {
+            const response = await fetch($BASE_URL + `/api/follow-users/${userId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -74,7 +73,6 @@
                 const result = await response.json();
                 toastr["error"](result.data);
             } else {
-                const result = await response.json();
                 followedUsersIds = followedUsersIds.filter(album => album != userId);
                 followedUsers.set(followedUsersIds);
                 userFollowed = undefined;
@@ -87,7 +85,7 @@
 
     const getUsersLikedAlbums = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/follow-albums/${userId}`, {
+            const response = await fetch($BASE_URL + `/api/follow-albums/${userId}`, {
                 credentials: 'include'
             });
 
@@ -105,7 +103,7 @@
 
     const getUsersReviews = async () => {
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews/users/${userId}`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews/users/${userId}`, {
                 credentials: 'include'
             });
 

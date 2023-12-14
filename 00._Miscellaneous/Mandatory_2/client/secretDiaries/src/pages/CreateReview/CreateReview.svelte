@@ -12,16 +12,20 @@
     const title = urlParams.get('title');
     const artist = urlParams.get('artist');
 
+    let maxStars = 5;
+    let rating = 0;
+    let reviewText;
+
     const createReview = async () => {
         const data = {
             userId: currentUser,
             albumId: albumId,
             reviewScore: rating,
             reviewText: reviewText
-        };
+        }
 
         try {
-            const response = await fetch(BASE_URL + `/api/album-reviews`, {
+            const response = await fetch($BASE_URL + `/api/album-reviews`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -38,22 +42,19 @@
                 albumsReviewed.push(albumId);
                 reviews.set(albumsReviewed);
                 toastr["success"](`You've reviewed ${title}!`);
-                navigate(-1);
+                navigate(`/album?id=${albumId}`);
             }
         } catch (error) {
             toastr["error"](error.message);
         }
     }
 
-    let maxStars = 5;
-    let rating = 0;
-    let reviewText;
-
     function setRating(value) {
         rating = value;
     }
 </script>
 
+<span class="span-header">{artist}: {title}</span>
 <form on:submit|preventDefault={createReview}>
     <div class="input">
         <label for="stars">Score:</label>
