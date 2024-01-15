@@ -116,7 +116,7 @@
       <input type="password" id="password" bind:value={password} />
     </div>
 
-    <button type="submit">Login</button> 
-    <button on:click={() => navigate("/signup")}>Signup</button>
+    <button class="button" type="submit">Login</button> 
+    <button class="button" on:click={() => navigate("/signup")}>Signup</button>
   </form>
   

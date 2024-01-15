@@ -32,13 +32,13 @@
     <div class="album-box" on:click={() => navigateToAlbum(album)}>
       <h3><img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />{album.artist}: {album.title}</h3>
       <h3>{album.genre}</h3>
-      <span>{album.rating}</span>
+      <span>{parseFloat(album.rating).toFixed(1)}</span>
       {#each getStarGradient(album.rating) as gradient, i}
         <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
       {/each}
     </div>
   {/each}
   {#if albums.length > showMoreAlbumsCount}
-    <button on:click|preventDefault={showMoreAlbums}>Show more albums</button>
+    <button class="button" on:click|preventDefault={showMoreAlbums}>Show more albums</button>
   {/if}
 {/if}

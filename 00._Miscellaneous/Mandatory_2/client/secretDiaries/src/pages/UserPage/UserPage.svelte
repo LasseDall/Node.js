@@ -17,6 +17,8 @@
     let usersLikedAlbums = [];
     let usersReviews = [];
 
+    const deleteButton = false;
+
     onMount(() => {
         getUsersLikedAlbums();
         getUsersReviews();
@@ -122,11 +124,13 @@
 </script>
 
 <h1>{username}</h1>
-<img src="/src/assets/images/user-icon.jpg" class="vinyl-icon" />
+<div>
+    <img src="/src/assets/images/user-icon.jpg" class="vinyl-icon" />
+</div>
 {#if userFollowed === undefined}
-    <button on:click={() => followUser()}>Follow user</button>
+    <button class="button" on:click={() => followUser()}>Follow user</button>
 {:else}
-    <button on:click={() => unfollowUser()}>Unfollow user</button>
+    <button class="button" on:click={() => unfollowUser()}>Unfollow user</button>
 {/if}
 
 <h2>{username}'s liked albums:</h2>

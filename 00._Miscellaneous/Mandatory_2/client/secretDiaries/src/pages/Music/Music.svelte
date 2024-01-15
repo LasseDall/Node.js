@@ -121,24 +121,25 @@
 
 </script>
 
+<h2 class="span-header">Music</h2>
+
 <form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
-    <span class="span-header">Music</span>
     <span class="search-span">
         <input type="text" id="search" placeholder="search.." bind:value={searchField}/>
-        <button type="submit">Search</button>        
-        <button type="reset">Reset filters</button>
+        <button class="search-button" type="submit">Search</button>        
+        <button class="search-button" type="reset">Reset</button>
     </span>
 </form>
 
 <AlbumComponent {albums} />
 
 <div class="pagination">
-    <button on:click={handlePrevPage} disabled={currentPage === 1}>Previous</button>
+    <button class="button" on:click={handlePrevPage} disabled={currentPage === 1}>Previous</button>
     <span>{currentPage} of {totalPages}</span>
-    <button on:click={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+    <button class="button" on:click={handleNextPage} disabled={currentPage === totalPages}>Next</button>
 </div>
 
-<button on:click={() => displayAlbumForm = true}>Add new album</button>
+<button class="button" on:click={() => displayAlbumForm = true}>Add new album</button>
 
 {#if (displayAlbumForm)}
 <form class="album-form" on:submit|preventDefault={handleCreateAlbum}>
@@ -158,6 +159,6 @@
         <label for="year">Year:</label>
         <input type="number" id="year" bind:value={year} min="1930" max="2024" />
     </div>
-    <button type="submit">Create album</button> 
+    <button class="button" type="submit">Create album</button> 
 </form>
 {/if}

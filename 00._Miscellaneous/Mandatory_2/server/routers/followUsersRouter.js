@@ -17,7 +17,7 @@ router.get("/api/follow-users/:id", async (req, res) => {
             res.send({ data: followedUsersList });
         }
     }
-}); 
+});
 
 router.post("/api/follow-users", async (req, res) => {
     const id = req.body.id;

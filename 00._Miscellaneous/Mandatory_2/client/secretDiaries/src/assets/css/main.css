@@ -11,11 +11,37 @@
 .album-box {
     border: solid black 2px;
     margin: 3%;
+    background-color: cyan;
+    padding-bottom: 2%;
+}
+
+.album-box:hover {
+    background-color: darkcyan;
 }
 
 .user-box {
     border: solid black 2px;
     margin: 3%;
+    background-color: cyan;
+}
+
+.user-box:hover {
+    background-color: darkcyan;
+}
+
+.user-icon {
+    margin-top: 2%;
+}
+
+.review-box {
+    border: solid black 2px;
+    background-color: cyan;
+    padding: 2%;
+    margin: 1%;
+}
+
+.review-box:hover {
+    background-color: darkcyan;
 }
 
 .star {
@@ -37,13 +63,17 @@
     color: transparent;
 }
 
+.star-box {
+    margin-left: -13.5%;
+}
+
 .search-form {
     display: flex;
     align-items: center;
     text-align: center;
     width: 100%;
-    margin-top: 5%;
-    margin-left: 43%;
+    margin-top: -4%;
+    margin-left: 48%;
 }
 
 .span-header {
@@ -52,6 +82,8 @@
 }
 
 .search-span {
+    display: flex;
+    align-items: center;
     margin-left: 12%;
     padding-top: 2%;
 }
@@ -63,16 +95,36 @@
 }
 
 .chat-messages-div {
-    background-color: azure;
-    margin-left: 20%;
-    margin-right: 20%;
+    background-color: lightcyan;
+    margin-left: 23%;
     margin-top: 5%;
     margin-bottom: 2%;
     font-size: small;
     text-align: left;
     padding: 1%;
+    border: 2px solid black;
+    width: 50%;
+}
+
+.chat-message {
+    padding: 2px; 
+    word-wrap: break-word; 
+}
+
+.search-button {
+    margin-left: 2.5%;
+    display: inline-block;
+}
+  
+.search-button:hover {
+    background-color: #213547;
+    color: #ffffff;
+}
+
+select {
+    margin-top: 3%;
 }
 
 .album-form {
-    
+
 }

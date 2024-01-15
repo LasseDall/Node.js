@@ -17,14 +17,46 @@ const io = new Server(server, {
     path: "/socket.io/"
 });
 
+const chatRooms = {
+    "General room": {
+        users: [],
+        messages: []
+    }
+};
+
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 io.use(wrap(sessionMiddleware));
 
 io.on("connection", (socket) => {
+    socket.on("join-room", (roomName) => {
+        if (!chatRooms[roomName]) {
+            chatRooms[roomName] = {
+                users: [],
+                messages: [],
+            };
+            io.emit("server-update-rooms", chatRooms);
+        }
+
+        socket.join(roomName);
+
+        chatRooms[roomName].users.push({
+            id: socket.id,
+            username: socket.request.session.username,
+        });
+
+        io.to(roomName).emit("server-update-users", chatRooms[roomName].users);
+    });
+
     socket.on("client-send-a-message", (data) => {
-        if (socket.request.session.username) {
-            data.name = socket.request.session.username;
-            io.emit("server-send-a-message", { name: data.name, message: data.message });
+        const username = socket.request.session.username;
+        const roomName = data.room;
+        const room = chatRooms[roomName];
+
+        if (room && room.users.some((user) => user.username === username)) {
+            const message = { name: username, message: data.message, roomName: roomName };
+            chatRooms[roomName].messages.push(message);
+
+            io.to(roomName).emit("server-send-a-message", message);
         }
     });
 });

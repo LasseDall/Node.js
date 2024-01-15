@@ -17,7 +17,7 @@ router.get("/api/album-reviews/users/:id", async (req, res) => {
     } else {
         res.status(404).send({ data: "Id was not a number" });
     }
-}); 
+});
 
 router.get("/api/album-reviews/albums/:id", async (req, res) => {
     const id = req.params.id;

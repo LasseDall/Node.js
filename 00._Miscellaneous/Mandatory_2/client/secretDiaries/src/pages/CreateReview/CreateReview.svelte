@@ -58,7 +58,7 @@
 <form on:submit|preventDefault={createReview}>
     <div class="input">
         <label for="stars">Score:</label>
-        <div>
+        <div class="star-box">
         {#each Array(maxStars) as _, i}
           <span
               id="stars" class="star {i < rating ? 'active' : ''}"
@@ -72,5 +72,5 @@
       <label for="reviwText">Comment:</label>  
       <textarea name="reviewText" cols="40" rows="10" placeholder="Comment" bind:value={reviewText}></textarea>
     </div>
-    <button type="submit">Create review</button>
+    <button class="button" type="submit">Create review</button>
 </form>

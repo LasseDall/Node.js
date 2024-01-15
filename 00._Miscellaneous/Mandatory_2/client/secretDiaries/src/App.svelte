@@ -47,17 +47,39 @@
 </script>
 
 <Router>
-  <nav>
-    <Link to="/">Home</Link>
-    <Link to="/music">Music</Link>
-    <Link to="/users">Users</Link>
-    <Link to="/chat-room">Chat</Link>
-    {#if $currentUserId !== null}
+  <div class="doc-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light-grey">
+
+    <div class="container-fluid">
+      <ul id="menu" class="navbar-nav">
+        <li id="home-icon">
+          <Link to="/">
+            <img src="/src/assets/images/Hookem_hand.svg">
+          </Link>
+        </li>
+        <li id="home" class="nav-item">
+          <Link to="/">Home</Link>
+        </li>
+        <li id="music" class="nav-item">
+          <Link to="/music">Music</Link>
+      </li>
+      <li id="users" class="nav-item">
+        <Link to="/users">Users</Link>
+      </li>
+    <li id="chat" class="nav-item">
+      <Link to="/chat-room">Chat</Link>
+    </li>
+    <li id="login" class="nav-item">
+      {#if $currentUserId !== null}
       <Link to="/" on:click={handleLogout}>Logout</Link>
     {:else}
       <Link to="/login">Login</Link>
-  {/if}
+    {/if}      
+  </li>
+    </ul>
+    </div>
 </nav>
+</div>
 
 <div>
   <PrivateRoute path="/" let:location><Home /></PrivateRoute>

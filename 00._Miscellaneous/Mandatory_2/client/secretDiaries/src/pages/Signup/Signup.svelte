@@ -96,5 +96,5 @@
         <input type="password" id="password" bind:value={password} />
     </div>
 
-    <button type="submit">Signup</button> 
+    <button class="button" type="submit">Signup</button> 
 </form>

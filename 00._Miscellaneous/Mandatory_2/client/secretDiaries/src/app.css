@@ -20,7 +20,7 @@ body {
   flex-direction: column;
   place-items: center;
   min-width: 320px;
-  background-color: aqua;
+  background-color: rgb(208, 110, 40);
 }
 
 a {
@@ -108,11 +108,14 @@ button:focus-visible {
   grid-template-columns: max-content 1fr;
   gap: 5px;
   align-items: center;
+  margin-bottom: 1%;
 }
 
 label {
-  text-align: right;
+  text-align: left;
   padding-right: 10px;
+  width: 100px;
+  font-weight: 600;
 }
 
 nav {
@@ -138,5 +141,30 @@ nav a:hover {
 
 nav a.active {
   color: #22aa42;
+}
+
+#menu {
+  display: flex;
+  align-items: center; 
+}
+
+#home-icon {
+  margin-right: 20%;
+  width: 9%;
+  height: auto;
+}
+
+nav img {
+  width: 100%;
+  height: auto;
+}
+
+.button {
+  margin: 1%;
+}
+
+.button:hover {
+  background-color: #213547;
+  color: #ffffff;
 }
 

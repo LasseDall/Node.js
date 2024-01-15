@@ -30,10 +30,10 @@
 {:else}
     {#each visibleUsers as user}
         <div class="user-box" on:click={() => navigateToUser(user)}>
-            <h3><img src="/src/assets/images/user-icon.jpg" class="user-icon" />{user.username}</h3>
+            <img src="/src/assets/images/user-icon.jpg" class="user-icon" /><h3>{user.username}</h3>
         </div>
     {/each}
     {#if users.length > showMoreUsersCount}
-        <button on:click|preventDefault={showMoreUsers}>Show more users</button>
+        <button class="button" on:click|preventDefault={showMoreUsers}>Show more users</button>
     {/if}
 {/if}

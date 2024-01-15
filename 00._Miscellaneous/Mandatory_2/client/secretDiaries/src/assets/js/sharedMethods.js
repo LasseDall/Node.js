@@ -9,7 +9,7 @@ export function navigateToReview(review) {
 }
 
 export function navigateToCreateReview(id, title, artist) {
-    navigate(`/create-review?title=${title}&rartist=${artist}&aid=${id}`);
+    navigate(`/create-review?title=${title}&artist=${artist}&aid=${id}`);
 }
 
 export function navigateToUser(user) {

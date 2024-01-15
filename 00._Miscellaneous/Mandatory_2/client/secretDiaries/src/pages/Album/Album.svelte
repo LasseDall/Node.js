@@ -142,20 +142,21 @@
 <h1>{artist}: {title}</h1>
 <img src="/src/assets/images/vinyl-icon.png" class="vinyl-icon" />
 <h2>{genre}</h2>
-<h3>{rating}</h3>
+<h3>{parseFloat(rating).toFixed(1)}</h3>
 <div>
     {#each getStarGradient(rating) as gradient, i}
       <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
     {/each}
 </div>
 {#if albumLiked === undefined}
-    <button on:click={() => likeAlbum()}>Like album</button>
+    <button class="button" on:click={() => likeAlbum()}>Like album</button>
 {:else}
-    <button on:click={() => unlikeAlbum()}>Unlike album</button>
+    <button class="button" on:click={() => unlikeAlbum()}>Unlike album</button>
 {/if}
 
 {#if albumReviewed == undefined}
-    <button on:click={() => navigateToCreateReview(albumId, title, artist)}>Review album</button>    
+    <button class="button" on:click={() => navigateToCreateReview(albumId, title, artist)}>Review album</button>    
 {/if}
 
+<h2>Reviews:</h2>
 <AlbumReviews {albumReviews} />

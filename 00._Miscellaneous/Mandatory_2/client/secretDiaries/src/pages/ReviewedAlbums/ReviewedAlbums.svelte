@@ -71,9 +71,11 @@
             {/each}
             <span>: {usersReview.reviews_text.length > 50 ? `${usersReview.reviews_text.substring(0, 50)}...` : usersReview.reviews_text}</span>
         </div>
-        <button on:click={() => deleteReview(usersReview.albums_id, usersReview.title)}>Delete review</button>
+        {#if usersReview.users_id == currentUser}
+            <button class="button" on:click={() => deleteReview(usersReview.albums_id, usersReview.title)}>Delete review</button>
+        {/if}
     {/each}
     {#if visibleReviews.length > showMoreReviewsCount}
-        <button on:click|preventDefault={showMoreReviews}>Show more reviews</button>
+        <button class="button" on:click|preventDefault={showMoreReviews}>Show more reviews</button>
     {/if}
 {/if}
