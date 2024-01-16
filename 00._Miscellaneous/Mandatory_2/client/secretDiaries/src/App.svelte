@@ -103,3 +103,8 @@
   <Route path="/login"><Login /></Route>
 </div>
 </Router>
+
+<footer>
+  <p>Node.js project by Lasse Dall Mikkelsen</p>
+  <img src="/src/assets/images/Hookem_hand.svg">
+</footer>

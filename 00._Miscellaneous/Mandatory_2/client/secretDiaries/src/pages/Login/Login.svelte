@@ -103,7 +103,7 @@
 
 </script>
   
-  <h1>Login</h1>
+  <h1 class="header">Login</h1>
   
   <form on:submit|preventDefault={handleLogin}>
     <div class="input">

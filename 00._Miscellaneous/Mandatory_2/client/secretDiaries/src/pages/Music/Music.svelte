@@ -10,6 +10,8 @@
 
     let albums = [];
     let searchField = '';
+    let sortField = '';
+    let sortOrder = '';
 
     let title;
     let artist;
@@ -42,8 +44,26 @@
     }
 
     const getAlbums = async () => {
+        let fetchUrl = $BASE_URL + `/api/albums?page=${currentPage}`;
+        if (sortField !== '') {
+            if (sortField === 'rateAsc') {
+                sortField = 'rating';
+                sortOrder = 'ASC';
+            } else if (sortField === 'rateDesc') {
+                sortField = 'rating';
+                sortOrder = 'DESC';
+            } else if (sortField === 'alphAsc') {
+                sortField = 'artist';
+                sortOrder = 'ASC';
+            } else if (sortField === 'alphDesc') {
+                sortField = 'artist';
+                sortOrder = 'DESC';
+            } 
+
+            fetchUrl = fetchUrl + `&sortOrder=${sortOrder}&sortField=${sortField}`
+        }
         try {
-            const response = await fetch($BASE_URL + `/api/albums?page=${currentPage}`, {
+            const response = await fetch(fetchUrl, {
                 credentials: "include" 
             });
   
@@ -122,6 +142,17 @@
 </script>
 
 <h2 class="span-header">Music</h2>
+
+<div class="selecter">
+    <span><b>Sort by:</b></span>
+    <select bind:value={sortField} on:change={getAlbums}>
+      <option value="" disabled hidden>Select Sorting</option>
+      <option value="alphAsc">Alphabetical (Artist A-Z)</option>
+      <option value="alphDesc">Alphabetical (Artist Z-A)</option>
+      <option value="rateAsc">Rating (Low to high)</option>
+      <option value="rateDesc">Rating (High to low)</option>
+    </select>
+</div>
 
 <form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
     <span class="search-span">

@@ -85,7 +85,7 @@
     display: flex;
     align-items: center;
     margin-left: 12%;
-    padding-top: 2%;
+    padding-top: 0.8%;
 }
 
 .chat-input-div {
@@ -104,6 +104,8 @@
     padding: 1%;
     border: 2px solid black;
     width: 50%;
+    height: 250px;
+    overflow-y: scroll;
 }
 
 .chat-message {
@@ -123,6 +125,14 @@
 
 select {
     margin-top: 3%;
+}
+
+.selecter {
+    margin-right: 70%;
+}
+
+.header {
+    margin: 5.4%;
 }
 
 .album-form {

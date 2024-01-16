@@ -9,6 +9,8 @@
 
     let searchField = '';
     let users = [];
+    let sortField = '';
+    let sortOrder = '';
 
     const ITEMS_PER_PAGE = 10;
     let currentPage = 1;
@@ -34,8 +36,20 @@
     };
 
     const getUsers = async () => {
+        let fetchUrl = $BASE_URL + `/api/users?page=${currentPage}`;
+        if (sortField !== '') {
+            if (sortField === 'alphAsc') {
+                sortField = 'username';
+                sortOrder = 'ASC';
+            } else if (sortField === 'alphDesc') {
+                sortField = 'username';
+                sortOrder = 'DESC';
+            } 
+
+            fetchUrl = fetchUrl + `&sortOrder=${sortOrder}&sortField=${sortField}`
+        }
         try {
-            const response = await fetch($BASE_URL + `/api/users`, {
+            const response = await fetch(fetchUrl, {
                 credentials: "include" 
             });
   
@@ -70,7 +84,16 @@
 
 </script>
 
-<h2 class="span-header">User</h2>
+<h2 class="span-header">Users</h2>
+
+<div class="selecter">
+    <span><b>Sort by:</b></span>
+    <select bind:value={sortField} on:change={getUsers}>
+      <option value="" disabled hidden>Select Sorting</option>
+      <option value="alphAsc">Alphabetical (Artist A-Z)</option>
+      <option value="alphDesc">Alphabetical (Artist Z-A)</option>
+    </select>
+</div>
 
 <form class="search-form" on:submit|preventDefault={handleSearch} on:reset|preventDefault={handleReset}>
     <span class="search-span">
