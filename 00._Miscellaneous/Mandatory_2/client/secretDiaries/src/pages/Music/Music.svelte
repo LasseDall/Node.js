@@ -58,7 +58,13 @@
             } else if (sortField === 'alphDesc') {
                 sortField = 'artist';
                 sortOrder = 'DESC';
-            } 
+            } else if (sortField === 'yearAsc') {
+                sortField = 'year';
+                sortOrder = 'DESC';
+            } else if (sortField === 'yearDesc') {
+                sortField = 'year';
+                sortOrder = 'ASC';
+            }
 
             fetchUrl = fetchUrl + `&sortOrder=${sortOrder}&sortField=${sortField}`
         }
@@ -151,6 +157,8 @@
       <option value="alphDesc">Alphabetical (Artist Z-A)</option>
       <option value="rateAsc">Rating (Low to high)</option>
       <option value="rateDesc">Rating (High to low)</option>
+      <option value="yearAsc">Year (Newest to oldest)</option>
+      <option value="yearDesc">Rating (Oldest to newest)</option>
     </select>
 </div>
 

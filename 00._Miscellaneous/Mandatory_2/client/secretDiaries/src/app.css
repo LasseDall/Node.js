@@ -130,9 +130,9 @@ nav {
 }
 
 nav a {
-  margin: 15px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
   text-decoration: none;
   color: #8e2222;
   padding: 25px;
@@ -153,8 +153,8 @@ nav a.active {
 }
 
 #home-icon {
-  margin-right: 50%;
-  width: 12%;
+  margin-right: 60%;
+  width: 20%;
   height: auto;
 }
 

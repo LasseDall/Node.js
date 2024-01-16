@@ -132,7 +132,24 @@ select {
 }
 
 .header {
-    margin: 5.4%;
+    margin: 7%;
+}
+
+.year-genre {
+    margin-left: 43%;
+    text-align: start;
+}
+
+.star-div {
+    margin-left: 43%;
+    text-align: start;
+    margin-top: -0.8%;
+    font-size: large;
+}
+
+.album-h3 {
+    text-align: start;
+    margin-left: 34.7%;
 }
 
 .album-form {
