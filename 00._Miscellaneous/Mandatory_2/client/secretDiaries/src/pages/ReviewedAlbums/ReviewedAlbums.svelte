@@ -75,7 +75,7 @@
             <button class="button" on:click={() => deleteReview(usersReview.albums_id, usersReview.title)}>Delete review</button>
         {/if}
     {/each}
-    {#if visibleReviews.length > showMoreReviewsCount}
+    {#if usersReviews.length > showMoreReviewsCount}
         <button class="button" on:click|preventDefault={showMoreReviews}>Show more reviews</button>
     {/if}
 {/if}

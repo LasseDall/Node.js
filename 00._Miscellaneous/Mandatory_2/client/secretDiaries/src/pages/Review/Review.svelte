@@ -38,7 +38,7 @@
 </script>
 
 {#if (review)}
-    <h1>{review[0].artist}: {review[0].title}</h1>
+    <h1 class="header">{review[0].artist}: {review[0].title}</h1>
     <h3>{review[0].reviews_text}</h3>
     {#each getStarGradient(review[0].reviews_score) as gradient, i}
         <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>

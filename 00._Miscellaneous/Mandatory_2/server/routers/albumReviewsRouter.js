@@ -87,7 +87,7 @@ router.post("/api/album-reviews", async (req, res) => {
 }); 
 
 router.delete("/api/album-reviews/:id", async (req, res) => {
-    const albumId = req.params.id;
+    const albumId = Number(req.params.id);
     const userId = req.body.id;
     if(!isNaN(userId) || !isNaN(albumId)) {
         const deletedRating = await db.get(`SELECT reviews_score FROM album_reviews WHERE users_id=? AND albums_id=?;`, 
@@ -105,7 +105,7 @@ router.delete("/api/album-reviews/:id", async (req, res) => {
                     const updatedReviewCount = Number(albumRating.review_count) - 1;
                     let updatedAlbumRating = 0;
                     if (updatedReviewCount > 0) {
-                        updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) - Number(deletedRating)) / Number(updatedReviewCount);
+                        updatedAlbumRating = (Number(albumRating.rating) * Number(albumRating.review_count) - Number(deletedRating.reviews_score)) / Number(updatedReviewCount);
                     }
                     await db.run(`UPDATE albums SET rating = ${updatedAlbumRating}, review_count = ${updatedReviewCount} WHERE id=?`,
                                   albumId);

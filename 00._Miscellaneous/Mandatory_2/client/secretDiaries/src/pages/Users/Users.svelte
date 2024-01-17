@@ -68,13 +68,22 @@
     }
 
     const handleSearch = async () => {
-        await getUsers();
-        const foundUserArray = [];
-        const foundUser = users.find(user => user.username.toLowerCase() == searchField.toLowerCase());
-        if (foundUser) {
-            foundUserArray.push(foundUser);
-            console.log(foundUserArray)
-            users = foundUserArray;
+        try {
+            const response = await fetch($BASE_URL + `/api/users?searchField=${searchField}`, {
+                credentials: "include" 
+            });
+  
+            if (!response.ok) {
+                const result = await response.json();
+                toastr["error"](result.data);
+            } else {
+                const result = await response.json();
+                users = result.data;
+                totalUsers = 10;
+                updatePagination();
+            }
+        } catch (error) {
+            toastr["error"](error.message);
         }
     }
 
