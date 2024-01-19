@@ -2,9 +2,9 @@
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { currentUserId, currentUserUsername } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
-    import ReviewedAlbums from "../ReviewedAlbums/ReviewedAlbums.svelte";
-    import FollowedUsers from "../UserComponent/UserComponent.svelte";
+    import AlbumComponent from "../../components/AlbumComponent/AlbumComponent.svelte";
+    import ReviewedAlbums from "../../components/ReviewedAlbums/ReviewedAlbums.svelte";
+    import FollowedUsers from "../../components/UserComponent/UserComponent.svelte";
 
     const currentUser = $currentUserId;
 

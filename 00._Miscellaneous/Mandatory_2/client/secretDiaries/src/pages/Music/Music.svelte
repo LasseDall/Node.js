@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
-    import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
+    import AlbumComponent from "../../components/AlbumComponent/AlbumComponent.svelte";
 
 
     onMount(() => {

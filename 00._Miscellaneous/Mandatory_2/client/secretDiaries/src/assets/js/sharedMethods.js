@@ -1,7 +1,7 @@
 import { navigate } from "svelte-navigator";
 
 export function navigateToAlbum(album) {
-    navigate(`/album?title=${album.title}&artist=${album.artist}&genre=${album.genre}&rating=${album.rating}&id=${album.id}`);
+    navigate(`/album?likeCount=${album.likeCount}&id=${album.id}`);
 }
 
 export function navigateToReview(review) {
@@ -13,7 +13,7 @@ export function navigateToCreateReview(id, title, artist) {
 }
 
 export function navigateToUser(user) {
-    navigate(`/user-page?username=${user.username}&id=${user.id}`);
+    navigate(`/user-page?username=${user.username}&id=${user.id}&followCount=${user.followCount}`);
 }
 
 export function getStarGradient(starRating) {

@@ -51,8 +51,8 @@ app.use("/api/", authorize);
 
 import authRouter from "./routers/authRouter.js";
 app.use(authRouter);
-import emailRouter from "./routers/emailRouter.js";
-app.use(emailRouter);
+import emailsRouter from "./routers/emailsRouter.js";
+app.use(emailsRouter);
 import albumsRouter from "./routers/albumsRouter.js";
 app.use(albumsRouter);
 import followAlbumsRouter from "./routers/followAlbumsRouter.js";
@@ -63,8 +63,8 @@ import usersRouter from "./routers/usersRouter.js";
 app.use(usersRouter);
 import albumReviewsRouter from "./routers/albumReviewsRouter.js";
 app.use(albumReviewsRouter);
-import chatRouter from "./routers/chatRouter.js";
-app.use(chatRouter);
+import chatsRouter from "./routers/chatsRouter.js";
+app.use(chatsRouter);
 
 
 app.get("*", (req, res) => {

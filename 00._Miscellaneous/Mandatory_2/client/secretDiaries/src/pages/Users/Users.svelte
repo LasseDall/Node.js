@@ -1,7 +1,7 @@
 <script>
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { onMount } from 'svelte';
-    import UserComponent from "../UserComponent/UserComponent.svelte";
+    import UserComponent from "../../components/UserComponent/UserComponent.svelte";
     
     onMount(() => {
         getUsers();
@@ -43,6 +43,12 @@
                 sortOrder = 'ASC';
             } else if (sortField === 'alphDesc') {
                 sortField = 'username';
+                sortOrder = 'DESC';
+            } else if (sortField === 'followAsc') {
+                sortField = 'followCount';
+                sortOrder = 'ASC';
+            } else if (sortField === 'followDesc') {
+                sortField = 'followCount';
                 sortOrder = 'DESC';
             } 
 
@@ -101,6 +107,8 @@
       <option value="" disabled hidden>Select Sorting</option>
       <option value="alphAsc">Alphabetical (Artist A-Z)</option>
       <option value="alphDesc">Alphabetical (Artist Z-A)</option>
+      <option value="followDesc">Followers (High to low)</option>
+      <option value="followAsc">Alphabetical (Low to high)</option>
     </select>
 </div>
 

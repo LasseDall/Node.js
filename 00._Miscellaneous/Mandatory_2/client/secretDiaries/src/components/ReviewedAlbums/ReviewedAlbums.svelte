@@ -66,16 +66,19 @@
 {:else}
     {#each visibleReviews as usersReview}
         <div class="review-box" on:click={() => navigateToReview(usersReview)}>
+            <span class="review-artist"><b>{usersReview.artist}:</b> {usersReview.title}</span>
             {#each getStarGradient(usersReview.reviews_score) as gradient, i}
                 <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
             {/each}
-            <span>: {usersReview.reviews_text.length > 50 ? `${usersReview.reviews_text.substring(0, 50)}...` : usersReview.reviews_text}</span>
+            <span class="review-by">{usersReview.reviews_text.length > 40 ? `${usersReview.reviews_text.substring(0, 40)}...` : usersReview.reviews_text}</span>
         </div>
         {#if usersReview.users_id == currentUser}
             <button class="button" on:click={() => deleteReview(usersReview.albums_id, usersReview.title)}>Delete review</button>
         {/if}
     {/each}
     {#if usersReviews.length > showMoreReviewsCount}
-        <button class="button" on:click|preventDefault={showMoreReviews}>Show more reviews</button>
+        <div>
+            <button class="button" on:click|preventDefault={showMoreReviews}>Show more reviews</button>
+        </div>
     {/if}
 {/if}

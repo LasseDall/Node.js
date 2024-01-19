@@ -2,13 +2,14 @@
     import { BASE_URL } from "../../stores/urlStore.js";  
     import { currentUserId, followedUsers } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
-    import ReviewedAlbums from "../ReviewedAlbums/ReviewedAlbums.svelte";
-    import AlbumComponent from "../AlbumComponent/AlbumComponent.svelte";
+    import ReviewedAlbums from "../../components/ReviewedAlbums/ReviewedAlbums.svelte";
+    import AlbumComponent from "../../components/AlbumComponent/AlbumComponent.svelte";
    
     const urlParams = new URLSearchParams(window.location.search);
 
     const username = urlParams.get('username');
     const userId = urlParams.get('id');
+    let followCount = urlParams.get('followCount');
 
     const currentUser = $currentUserId;
     let followedUsersIds = $followedUsers;
@@ -48,6 +49,7 @@
                 followedUsersIds.push(userId);
                 followedUsers.set(followedUsersIds);
                 userFollowed = 1;
+                followCount++;
                 toastr["success"](`You are now following ${username}!`);
             }
         } catch (error) {
@@ -78,6 +80,7 @@
                 followedUsersIds = followedUsersIds.filter(album => album != userId);
                 followedUsers.set(followedUsersIds);
                 userFollowed = undefined;
+                followCount--;
                 toastr["success"](`You've unfollowed ${username}!`);
             }
         } catch (error) {
@@ -132,6 +135,7 @@
 {:else}
     <button class="button" on:click={() => unfollowUser()}>Unfollow user</button>
 {/if}
+<div class="followers">Followers: <b>{followCount}</b></div>
 
 <h2>{username}'s liked albums:</h2>
 <AlbumComponent albums={usersLikedAlbums} />

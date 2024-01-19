@@ -23,6 +23,7 @@
     border: solid black 2px;
     margin: 3%;
     background-color: cyan;
+    padding-bottom: 2%;
 }
 
 .user-box:hover {
@@ -42,6 +43,16 @@
 
 .review-box:hover {
     background-color: darkcyan;
+}
+
+.review-artist {
+    float: inline-start;
+    margin-left: 2%;
+}
+
+.review-by {
+    float: inline-end;
+    margin-right: 2%;
 }
 
 .star {

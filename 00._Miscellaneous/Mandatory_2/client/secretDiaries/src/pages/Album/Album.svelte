@@ -3,11 +3,12 @@
     import { currentUserId, likedAlbums, reviews } from "../../stores/userStore.js";
     import { onMount } from 'svelte';
     import { navigateToCreateReview, getStarGradient } from "../../assets/js/sharedMethods.js";
-    import AlbumReviews from "../AlbumReviews/AlbumReviews.svelte";
+    import AlbumReviews from "../../components/AlbumReviews/AlbumReviews.svelte";
    
     const urlParams = new URLSearchParams(window.location.search);
 
     const albumId = urlParams.get('id');
+    let likeCount = urlParams.get('likeCount');
     const currentUser = $currentUserId;
     let likedAlbumsIds = $likedAlbums;
     let reviewedAlbumsId = $reviews;
@@ -18,6 +19,7 @@
     let title;
     let artist;
     let year;
+    let reviewCount;
       
     let albumLiked = likedAlbumsIds.find(album => album == albumId);
     let albumReviewed = reviewedAlbumsId.find(review => review == albumId);
@@ -44,6 +46,7 @@
                 title = result.data.title;
                 artist = result.data.artist;
                 year = result.data.year;
+                reviewCount = result.data.review_count;
             }
         } catch (error) {
             toastr["error"](error.message);
@@ -82,6 +85,7 @@
             likedAlbumsIds.push(albumId);
             likedAlbums.set(likedAlbumsIds);
             albumLiked = 1;
+            likeCount++;
             toastr["success"](`You've liked ${title}!`);
         }
         } catch (error) {
@@ -113,6 +117,7 @@
                 likedAlbumsIds = likedAlbumsIds.filter(album => album != albumId);
                 likedAlbums.set(likedAlbumsIds);
                 albumLiked = undefined;
+                likeCount--;
                 toastr["success"](`You've unliked ${title}!`);
             }
         } catch (error) {
@@ -147,6 +152,7 @@
     {#each getStarGradient(rating) as gradient, i}
       <span class="rating-star" style="--star-gradient: {gradient}">&#9733;</span>
     {/each}
+    <span>({reviewCount})</span>
 </div>
 {#if albumLiked === undefined}
     <button class="button" on:click={() => likeAlbum()}>Like album</button>
@@ -157,6 +163,8 @@
 {#if albumReviewed == undefined}
     <button class="button" on:click={() => navigateToCreateReview(albumId, title, artist)}>Review album</button>    
 {/if}
+
+<div><b>{likeCount}</b> users likes this album</div>
 
 <h2>Reviews:</h2>
 <AlbumReviews {albumReviews} />

@@ -31,6 +31,7 @@
     {#each visibleUsers as user}
         <div class="user-box" on:click={() => navigateToUser(user)}>
             <img src="/src/assets/images/user-icon.jpg" class="user-icon" /><h3>{user.username}</h3>
+            <span class="followers">Followers: <b>{user.followCount}</b></span>
         </div>
     {/each}
     {#if users.length > showMoreUsersCount}

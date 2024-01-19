@@ -7,14 +7,29 @@ router.get("/api/follow-users/:id", async (req, res) => {
     if (isNaN(id)) {
         res.status(404).send({ data: "Id is not a number" });
     } else {
-        const followedUsersList = await db.all(`SELECT follow_users.followed_users_id, users.id, users.username 
-                                                FROM follow_users JOIN users ON follow_users.followed_users_id = users.id 
+        const followCount = await db.all(`SELECT users.id, COUNT(follow_users.followed_users_id) AS followCount FROM users
+                                          LEFT JOIN follow_users ON users.id = follow_users.followed_users_id
+                                          GROUP BY users.id`);         
+        
+        const followedUsersList = await db.all(`SELECT follow_users.followed_users_id, users.id, users.username FROM follow_users 
+                                                JOIN users ON follow_users.followed_users_id = users.id 
                                                 WHERE follow_users.users_id = ?;`,
                                                 id);
-        if (!followedUsersList) {
+        const followCountMap = {};
+        
+        followCount.forEach(item => {
+            followCountMap[item.id] = item.followCount;
+        });
+                                                
+        const result = followedUsersList.map(user => ({
+            ...user,
+            followCount: followCountMap[user.id] || 0
+        }));
+
+        if (!result) {
             res.status(404).send({ data: "No users found" });
         } else {
-            res.send({ data: followedUsersList });
+            res.send({ data: result });
         }
     }
 });
