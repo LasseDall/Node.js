@@ -1,7 +1,6 @@
 <script>
     import { navigateToReview, getStarGradient } from "../../assets/js/sharedMethods.js";
     import { onMount } from 'svelte';
-    import Login from "../../pages/Login/Login.svelte.js";
 
     onMount(async () => {
         await updateVisibleReviews();

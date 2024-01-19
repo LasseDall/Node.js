@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
         });
 
         io.to(roomName).emit("server-update-users", chatRooms[roomName].users);
-    });
+    });  
 
     socket.on("client-send-a-message", (data) => {
         const username = socket.request.session.username;

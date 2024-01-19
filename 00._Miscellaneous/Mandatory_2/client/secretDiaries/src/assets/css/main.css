@@ -11,23 +11,24 @@
 .album-box {
     border: solid black 2px;
     margin: 3%;
-    background-color: cyan;
+    background-color: lightgray;
     padding-bottom: 2%;
 }
 
 .album-box:hover {
-    background-color: darkcyan;
-}
+    background-color: black;
+    color: white;}
 
 .user-box {
     border: solid black 2px;
     margin: 3%;
-    background-color: cyan;
+    background-color: lightgray;
     padding-bottom: 2%;
 }
 
 .user-box:hover {
-    background-color: darkcyan;
+    background-color: black;
+    color: white;
 }
 
 .user-icon {
@@ -36,13 +37,14 @@
 
 .review-box {
     border: solid black 2px;
-    background-color: cyan;
+    background-color: lightgray;
     padding: 2%;
     margin: 1%;
 }
 
 .review-box:hover {
-    background-color: darkcyan;
+    background-color: black;
+    color: white;
 }
 
 .review-artist {

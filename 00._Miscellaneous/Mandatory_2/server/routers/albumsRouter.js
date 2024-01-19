@@ -37,18 +37,18 @@ router.get("/api/albums", async (req, res) => {
     const page = parseInt(req.query.page) || 1; 
     const offset = (page - 1) * ITEMS_PER_PAGE; 
 
+    const albums = await db.all(`SELECT albums.*, COUNT(users_albums.albums_id) AS likeCount FROM albums
+    LEFT JOIN users_albums ON albums.id = users_albums.albums_id
+    GROUP BY albums.id ORDER BY ${sortField} ${sortOrder}
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}`);
+
     if (searchField) {
-        const allAlbums = await db.all(`SELECT * FROM albums`);
-        const sortedAlbumList = await handleSearch(searchField, allAlbums);
+        const sortedAlbumList = await handleSearch(searchField, albums);
         res.send({ data: sortedAlbumList });
     } else {
         try {
             const allAlbums = await db.all(`SELECT *, (SELECT COUNT(*) FROM albums) as total_albums FROM albums`);
             const totalAlbums = allAlbums[0].total_albums;
-            const albums = await db.all(`SELECT albums.*, COUNT(users_albums.albums_id) AS likeCount FROM albums
-                                        LEFT JOIN users_albums ON albums.id = users_albums.albums_id
-                                        GROUP BY albums.id ORDER BY ${sortField} ${sortOrder}
-                                        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}`);
             res.send({ data: { albums, ITEMS_PER_PAGE, totalAlbums } });
         } catch (error) {
             res.status(404).send({ data: "No albums found" });
